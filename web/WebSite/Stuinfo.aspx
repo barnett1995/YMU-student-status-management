@@ -71,13 +71,13 @@
 <input tyoe="text" id="marriage" name="marr" placeholder="已婚未婚" required runat="server">
 
 <label for="sex">你的性别</label>
-<select id="sex" name="sex" runat="server">
-  <option>请选择</option>
-  <option value = "男">男</option>
-  <option value = "女">女</option>
-</select>
+<asp:DropDownList ID="Sex" runat="server">                          
+      <asp:ListItem>请选择</asp:ListItem>
+      <asp:ListItem>男</asp:ListItem>
+      <asp:ListItem>女</asp:ListItem>
+</asp:DropDownList>
 <label for="date1">你的出生年月</label>
-<input type="text" placeholder="格式为2017/1/1" id="date1" name="date1" required runat="server" pattern="^\d{4}/\d{1,2}/\d{1,2}$" title="请填写正确生日格式（例：2017/1/1）"  >
+<input type="text" placeholder="格式为2017-1-1" id="date1" name="date1" required runat="server" pattern="^\d{4}-\d{1,2}-\d{1,2}$" title="请填写正确生日格式（例：2017-1-1）"  >
 
 <label for="email">你的电子邮件</label>
 <input type="text" id="email" name="email" placeholder="电子邮件地址、QQ邮箱等等..." required runat="server" pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
@@ -87,19 +87,20 @@
 <label for="phone2">家庭联系方式</label>
 <input type="text" id="phone2" name="phone2" placeholder="家中任意监护人的有效联系方式..." required runat="server"  pattern="^\d{11}$" title="填写正确手机号" >
 <label for="sex">选择银行</label>
-<select id="bankcard1" name="bankcard" runat="server">
-  <option>请选择</option>
-  <option value = "中国建设银行">中国建设银行</option>
-  <option value = "中国工商银行">中国工商银行</option>
-  <option value = "中国农业银行">中国农业银行</option>
-  <option value = "中国银行">中国银行</option>
-  <option value = "中国邮政储蓄银行">中国邮政储蓄银行</option>
-  <option value = "招商银行">招商银行</option>
-  <option value = "交通银行">交通银行</option>
-  <option value = "浦发银行">浦发银行</option>
-  <option value = "云南农村信用社">云南农村信用社</option>
-  <option value = "其他">其他</option>
-</select>
+<asp:DropDownList ID="bank" runat="server">                          
+     <asp:ListItem>请选择</asp:ListItem>
+     <asp:ListItem>中国建设银行</asp:ListItem>
+     <asp:ListItem>中国工商银行</asp:ListItem>
+     <asp:ListItem>中国农业银行</asp:ListItem>
+    <asp:ListItem>中国银行</asp:ListItem>
+    <asp:ListItem>中国邮政储蓄银行</asp:ListItem>
+    <asp:ListItem>招商银行</asp:ListItem>
+    <asp:ListItem>交通银行</asp:ListItem>
+    <asp:ListItem>浦发银行</asp:ListItem>
+    <asp:ListItem>云南农村信用社</asp:ListItem>
+    <asp:ListItem>其他</asp:ListItem>    
+</asp:DropDownList>
+
 <label for="site">银行卡卡号</label>
 <input type="text" id="bankcard" name="site" placeholder="银行卡卡号" required runat="server">
 <label for="site">生源地</label>
@@ -118,7 +119,7 @@
 <textarea id="punishment" name="punishment" style="width:445px;height:100px;" placeholder="何时何地因何种原因受过何种惩罚，没有就写（无），我想应该是大家都没有惩罚记录，什么？你还有惩罚记录？666，组织对你刮目相看" required runat="server"></textarea>
 <label for="education">学历经历</label>
 
-<label for="education">社会经历表(至少填写1个)</label>
+<label for="education">社会经历表(至少填写三个)</label>
     <p>
     <textarea name="sh11" id="sh11" style="width:130px;height:20px;" placeholder="时间" required runat="server"></textarea>
     <textarea name="sh12" id="sh12" style="width:200px;height:20px;" placeholder="学校（单位）" required runat="server"></textarea>
@@ -130,27 +131,27 @@
     <textarea name="sh23" id="sh23" style="width:70px;height:20px;" placeholder="职务" required runat="server"></textarea>
     </p>
     <p>
-    <textarea name="sh31" id="sh31" style="width:130px;height:20px;" placeholder="时间" required runat="server"></textarea>
-    <textarea name="sh32" id="sh32" style="width:200px;height:20px;" placeholder="学校（单位）" required runat="server"></textarea>
-    <textarea name="sh33" id="sh33" style="width:70px;height:20px;" placeholder="职务" required runat="server"></textarea>
+    <textarea name="sh31" id="sh31" style="width:130px;height:20px;" placeholder="时间" required  runat="server"></textarea>
+    <textarea name="sh32" id="sh32" style="width:200px;height:20px;" placeholder="学校（单位）" required  runat="server"></textarea>
+    <textarea name="sh33" id="sh33" style="width:70px;height:20px;" placeholder="职务" required  runat="server"></textarea>
     </p>
     <p>
-    <textarea name="sh41" id="sh41" style="width:130px;height:20px;" placeholder="时间" required runat="server"></textarea>
-    <textarea name="sh42" id="sh42" style="width:200px;height:20px;" placeholder="学校（单位）" required runat="server"></textarea>
-    <textarea name="sh43" id="sh43" style="width:70px;height:20px;" placeholder="职务" required runat="server"></textarea>
+    <textarea name="sh41" id="sh41" style="width:130px;height:20px;" placeholder="时间"  runat="server"></textarea>
+    <textarea name="sh42" id="sh42" style="width:200px;height:20px;" placeholder="学校（单位）" runat="server"></textarea>
+    <textarea name="sh43" id="sh43" style="width:70px;height:20px;" placeholder="职务"  runat="server"></textarea>
     </p>
     <p>
-    <textarea name="sh51" id="sh51" style="width:130px;height:20px;" placeholder="时间" required runat="server"></textarea>
-    <textarea name="sh52" id="sh52" style="width:200px;height:20px;" placeholder="学校（单位）" required runat="server"></textarea>
-    <textarea name="sh53" id="sh53" style="width:70px;height:20px;" placeholder="职务" required runat="server"></textarea>
+    <textarea name="sh51" id="sh51" style="width:130px;height:20px;" placeholder="时间" runat="server"></textarea>
+    <textarea name="sh52" id="sh52" style="width:200px;height:20px;" placeholder="学校（单位）"  runat="server"></textarea>
+    <textarea name="sh53" id="sh53" style="width:70px;height:20px;" placeholder="职务" runat="server"></textarea>
     </p>
     <p>
-    <textarea name="sh61" id="sh61" style="width:130px;height:20px;" placeholder="时间" required runat="server"></textarea>
-    <textarea name="sh62" id="sh62" style="width:200px;height:20px;" placeholder="学校（单位）" required runat="server"></textarea>
-    <textarea name="sh63" id="sh63" style="width:70px;height:20px;" placeholder="职务" required runat="server"></textarea>
+    <textarea name="sh61" id="sh61" style="width:130px;height:20px;" placeholder="时间" runat="server"></textarea>
+    <textarea name="sh62" id="sh62" style="width:200px;height:20px;" placeholder="学校（单位）"  runat="server"></textarea>
+    <textarea name="sh63" id="sh63" style="width:70px;height:20px;" placeholder="职务"  runat="server"></textarea>
     </p>
     
-<label for="family">家庭成员关系(至少填写1个)</label>
+<label for="family">家庭成员关系(至少填写一个)</label>
 <textarea name="family11" id="family11" style="width:60px;height:20px;" placeholder="姓名" required runat="server"></textarea>
 <textarea name="family12" id="family12" style="width:80px;height:20px;" placeholder="与本人关系" required runat="server"></textarea>
 <textarea name="family13" id="family13" style="width:70px;height:20px;" placeholder="政治面貌" required runat="server"></textarea>
@@ -188,7 +189,7 @@
 <textarea name="family65" id="family65" style="width:280px;height:20px;" placeholder="职务、去向、是否在人世" runat="server"></textarea>
 <textarea name="family66" id="family66" style="width:145px;height:20px;" placeholder="联系电话" runat="server"></textarea>
 
-<label for="friend">社会成员关系(至少填写1个)</label>
+<label for="friend">社会成员关系(至少填写一个)</label>
 <textarea name="friend11" id="friend11" style="width:60px;height:20px;" placeholder="姓名" required runat="server"></textarea>
 <textarea name="friend12" id="friend12" style="width:80px;height:20px;" placeholder="与本人关系" required runat="server"></textarea>
 <textarea name="friend13" id="friend13" style="width:70px;height:20px;" placeholder="政治面貌" required runat="server"></textarea>

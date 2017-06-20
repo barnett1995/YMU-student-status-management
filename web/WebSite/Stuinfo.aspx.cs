@@ -61,7 +61,7 @@ public partial class t : System.Web.UI.Page
             group.Value = dt.Rows[0]["Political"].ToString();                      // 政治面貌
             body.Value = dt.Rows[0]["Body"].ToString();                             //健康状况
             marriage.Value = dt.Rows[0]["Marriage"].ToString();                     //婚姻状况
-            sex.Value = dt.Rows[0]["Sex"].ToString();                               //性别
+          
             date1.Value = dt.Rows[0]["Birthday"].ToString();                        //生日
             email.Value = dt.Rows[0]["E_Mail"].ToString();                          //邮箱
             phone.Value = dt.Rows[0]["MobileNo手机号码"].ToString();                 //你的联系方式
@@ -76,10 +76,11 @@ public partial class t : System.Web.UI.Page
             wt.Value = dt.Rows[0]["BigEvents"].ToString();                          //家庭主要成员和主要关系中有无重大问题，与本人关系如何
             anything.Value = dt.Rows[0]["OtherProblem"].ToString();                 //其他问题说明
             everything.Value = dt.Rows[0]["Remember"].ToString();                    //个人介绍与事件记录
-            bankcard1.Value = dt.Rows[0]["Bank"].ToString();
+            bank.SelectedItem.Text= dt.Rows[0]["Bank"].ToString();
             bankcard.Value = dt.Rows[0]["Bankcard"].ToString();
+            Sex.SelectedItem.Text = dt.Rows[0]["Sex"].ToString();
 
-            sex. = dt.Rows[0]["Sex"].ToString();
+    
 
             //社会关系表 Relation
             friend11.Value = dt1.Rows[0]["Name"].ToString();                    //姓名
@@ -232,12 +233,12 @@ public partial class t : System.Web.UI.Page
         String minzu = nationality.Value;                       //民族
         String zhengzhi = group.Value;                          //政治面貌
         String jiankang = body.Value;                           //健康状况
-        String xingbie = sex.Value;                             //性别
+        String xingbie = Sex.SelectedItem.Text;                             //性别
         String shenri = date1.Value;                            //生日
         String youxiang = email.Value;                          //邮箱
         String shouji = phone.Value;                            //手机号
         String jiazhang = phone2.Value;                         //家庭电话
-        String yinhang = bankcard1.Value;                       //银行
+        String yinhang = bank.SelectedItem.Text;                       //银行
         String kahao = bankcard.Value;                          //卡号
         String chushengdi = site.Value;                         //出生地
         String shenfengzheng = idcard.Value;                    //身份证
