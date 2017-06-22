@@ -41,7 +41,7 @@
       <div class="logo span4">
         <h2><a href="http://202.203.158.158/sso/login">云南民族大学<span class="red">学籍信息录入页</span></a></h2>
       </div>
-      <div class="links span8"> <a class="home" href="http://www.ynni.edu.cn" rel="tooltip" data-placement="bottom" data-original-title="学校官网"></a> </div>
+      <div class="links span8"> <a class="home" href="login.aspx" rel="tooltip" data-placement="bottom" data-original-title="返回登陆页"></a> </div>
     </div>
   </div>
 </div>
@@ -50,11 +50,12 @@
 <div class="iphone span5"> <img src="assets/img/iphone.png" alt=""> </div>
 <div class="register span6">
 <form id="form1" runat="server">
+    
 <h2>填写你的 <span class="red"><strong>学籍信息</strong></span></h2>
 <label for="mypicture">标准正规照</label>
-<img id="preview" />
+<img id="preview" runat="server"/>
 <br/>
-<input type="file" id="mypicture" name="mypicture" onchange="imgPreview(this)" runat="server"  required />
+<input type="file" id="mypicture" name="mypicture" onchange="imgPreview(this)" runat="server"  />
 <label for="firstname">你的名字</label>
 <input type="text" id="firstname" name="firstname" placeholder="你的身份证姓名..." runat="server"  required>
 <label for="lastname">你的曾用名</label>
