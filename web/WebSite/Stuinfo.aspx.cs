@@ -435,7 +435,8 @@ public partial class t : System.Web.UI.Page
                         upda3.Fill(upds3);
                         conn.Close();
                         Response.Write(@"<script>alert('信息上传成功！');</script>");
-                  }
+                        Response.AddHeader("Refresh", "0");                   //页面刷新
+        }
                   else
                   {
                         string savePath = Server.MapPath("picture/");            //Server.MapPath方法返回与指定虚拟路径相对应的物理路径。                             
@@ -485,7 +486,8 @@ public partial class t : System.Web.UI.Page
                             upda3.Fill(upds3);
                             conn.Close();
                             Response.Write(@"<script>alert('信息上传成功！');</script>");
-                        }
+                            Response.AddHeader("Refresh", "0");           //页面刷新
+                      }
 
                 
 

@@ -30,6 +30,7 @@
 						</div>
 						<div class="group">
 							&nbsp;
+                            <label for="user" class="label">密码</label>
                             <asp:TextBox ID="pwd" runat="server" CssClass="TextBoxStyle" TextMode="Password"></asp:TextBox>
 						</div>
 						<div class="group">
