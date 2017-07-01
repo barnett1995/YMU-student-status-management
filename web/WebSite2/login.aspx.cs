@@ -48,7 +48,7 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "Admin0.aspx?id=" + id.Text;
+                    string url = "test1.aspx?id=" + id.Text;
                     Response.Redirect(url);                                      //页面跳转
                 }
             }
@@ -70,7 +70,7 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "Admin1.aspx?id=" + id.Text;
+                    string url = "demo.aspx?id=" + id.Text;
                     Response.Redirect(url);                                      //页面跳转
                 }
             }
@@ -92,7 +92,7 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "Admin2.aspx?id=" + id.Text;
+                    string url = "demo.aspx?id=" + id.Text;
                     Response.Redirect(url);                                      //页面跳转
                 }
             }
