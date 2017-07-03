@@ -48,7 +48,7 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "test1.aspx?id=" + id.Text;
+                    string url = "demo2.aspx?id=" + id.Text;
                     Response.Redirect(url);                                      //页面跳转
                 }
             }

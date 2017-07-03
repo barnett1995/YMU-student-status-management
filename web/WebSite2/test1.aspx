@@ -14,17 +14,29 @@
          <p>
              <asp:ScriptManager ID="ScriptManager1" runat="server">
              </asp:ScriptManager>
+
              <label  class="label">查询学生信息</label>
               <asp:UpdatePanel ID="UpdatePanel1" runat="server">
               <ContentTemplate>
         <p>
-            <label  class="label">选择系</label>
+           
             <p>
             <label  class="label">选择系</label>
             <asp:DropDownList ID="selectxi" runat="server"  Width="138px" AutoPostBack="True" OnSelectedIndexChanged="selectxi_SelectedIndexChanged"></asp:DropDownList>
             <p>
             <label  class="label">选择班级</label>
             <asp:DropDownList ID="selectbj" runat="server" Width="138px"></asp:DropDownList>
+            <p>
+            <label  class="label">选择年级</label>
+            <asp:DropDownList ID="selectnj" runat="server" Width="138px">
+                <asp:ListItem>2014级</asp:ListItem>
+                <asp:ListItem>2015级</asp:ListItem>
+                <asp:ListItem>2016级</asp:ListItem>
+                <asp:ListItem>2017级</asp:ListItem>
+                <asp:ListItem>2018级</asp:ListItem>
+                <asp:ListItem>2019级</asp:ListItem>
+                <asp:ListItem>2020级</asp:ListItem>
+            </asp:DropDownList>
              </ContentTemplate>
                 </asp:UpdatePanel>
             &nbsp; &nbsp; &nbsp; 

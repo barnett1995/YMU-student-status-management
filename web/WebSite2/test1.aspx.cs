@@ -34,24 +34,25 @@ public partial class test1 : System.Web.UI.Page
     {
         string xi = selectxi.SelectedItem.Text;
         string cl = selectbj.SelectedItem.Text;
+        string nj = selectnj.SelectedItem.Text;
         string id = xuehao.Value;
 
         if (id != "")
         {
             // 查询id
-            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "' AND banji.Class_ID=si.classid";
+            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "' AND nianji='"+nj+"' AND banji.Class_ID=si.classid";
             searchBind(sqlStr);
         }
         else if (xi != "请选择系" && cl == "请选择班级")
         {
             //查询系
-            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND si.xi_ID=(SELECT Xi_id FROM Xi WHERE XM='" + xi + "')";
+            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND si.xi_ID=(SELECT Xi_id FROM Xi WHERE XM='" + xi + "')";
             searchBind(sqlStr1);
         }
         else if (xi != "" && cl != "请选择班级")
         {
             //查询班级
-            string sqlStr2 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "')";
+            string sqlStr2 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "')";
             searchBind(sqlStr2);
         }
         else if(xi == "请选择系" && cl == "请选择班级")

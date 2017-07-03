@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
+using System.Collections;
 
 public partial class demo2 : System.Web.UI.Page
 {
@@ -16,7 +17,11 @@ public partial class demo2 : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            bind();
             listbind();
+            selectbind();
+            this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
+            this.selectbj.Items.Insert(0, new ListItem("请选择班级", "0"));
             this.xylist.Items.Insert(0, new ListItem("请选择学院", "0"));
             this.xilist.Items.Insert(0, new ListItem("请选择系", "0"));
             this.banjilist.Items.Insert(0, new ListItem("请选择班级 ", "0"));
@@ -45,7 +50,7 @@ public partial class demo2 : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-
+                bind();
             }
         }
         else
@@ -122,7 +127,7 @@ public partial class demo2 : System.Web.UI.Page
             {
                 string selectStr = "SELECT College.College_ID, Xi.Xi_id, banji.Class_ID FROM College,Xi,banji WHERE College.CM='" + xy + "' AND Xi.XM='" + xi + "' AND banji.CLM='" + cls + "'";
 
-               
+
                 SqlDataAdapter da2 = new SqlDataAdapter(selectStr, conn);
                 DataTable dt2 = new DataTable();
                 conn.Open();                                                             //打开数据库
@@ -133,7 +138,7 @@ public partial class demo2 : System.Web.UI.Page
                 string xid = dt2.Rows[0]["Xi_id"].ToString();
                 string cid = dt2.Rows[0]["Class_ID"].ToString();
 
-                string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid+ "','" + xid+ "','" + cid + "','" + nj + "'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
+                string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
 
 
                 Response.Write(@"<script>alert('上传成功！');</script>");
@@ -257,7 +262,7 @@ public partial class demo2 : System.Web.UI.Page
         }
 
     }
-    
+
     //下拉列表绑定部分
 
     /// <summary>
@@ -312,5 +317,371 @@ public partial class demo2 : System.Web.UI.Page
         banjilist.DataSource = ds;
         banjilist.DataTextField = "CLM";
         banjilist.DataBind();
+    }
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void chaxun_ServerClick(object sender, EventArgs e)
+    {
+        string xi = selectxi.SelectedItem.Text;
+        string cl = selectbj.SelectedItem.Text;
+        string nj = selectnj.SelectedItem.Text;
+        string id = xuehao.Value;
+
+        if (id != "")
+        {
+            // 查询id
+            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "' AND nianji='" + nj + "' AND banji.Class_ID=si.classid";
+            searchBind(sqlStr);
+        }
+        else if (xi != "请选择系" && cl == "请选择班级")
+        {
+            //查询系
+            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND si.xi_ID=(SELECT Xi_id FROM Xi WHERE XM='" + xi + "')";
+            searchBind(sqlStr1);
+        }
+        else if (xi != "" && cl != "请选择班级")
+        {
+            //查询班级
+            string sqlStr2 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "')";
+            searchBind(sqlStr2);
+        }
+        else if (xi == "请选择系" && cl == "请选择班级")
+        {
+            //提示错误
+            Response.Write(@"<script>alert('请正确选择或填写查询信息！');</script>");
+        }
+    }
+
+
+    /// <summary>
+    /// 重置查询
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void restart_ServerClick(object sender, EventArgs e)
+    {
+        this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
+        selectbind();
+        xuehao.Value = "";
+    }
+
+
+
+    /// <summary>
+    /// 全选gridveiw
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void CheckBox2_CheckedChanged(object sender, EventArgs e)
+    {
+        //.BottomPagerRow ,取得 GridViewRow 物件，代表下方頁面巡覽區的資料列中 GridView 控制項
+        
+        GridViewRow pagerRow = GridView1.BottomPagerRow;
+        Label lb = (Label)pagerRow.Cells[0].FindControl("lblPage");
+     
+       
+        int num = 0;
+        int x = GridView1.PageCount;            //获取当前页数
+        for (int j = 0; j < x; j++)
+        {
+           
+            for (int i = 0; i <= GridView1.Rows.Count - 1; i++)
+            {
+                CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
+                if (CheckBox2.Checked == true)
+                {
+                    cbox.Checked = true;
+                }
+                else
+                {
+                    cbox.Checked = false;
+                }
+            }
+            num=GridView1.PageIndex+1;
+            GridViewPageEventArgs ea = new GridViewPageEventArgs(num);
+            PageIndexchange(null,ea);
+            RememberOldValues();
+            RePopulateValues();
+        }
+        
+       
+    }
+
+    /// <summary>
+    /// 删除全选
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        for (int i = 0; i <= GridView1.Rows.Count - 1; i++)
+        {
+            CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
+            if (cbox.Checked == true)
+            {
+
+                string delstr = "DELETE FROM Experience WHERE ID='" + GridView1.DataKeys[i].Value.ToString() + "';DELETE FROM marriage WHERE ID='" + GridView1.DataKeys[i].Value.ToString() + "';DELETE FROM Relation WHERE ID='" + GridView1.DataKeys[i].Value.ToString() + "';DELETE FROM si WHERE ID='" + GridView1.DataKeys[i].Value.ToString() + "'";
+                SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
+                DataSet ds = new DataSet();
+                sqlcon.Open();
+                sda.Fill(ds);
+                sqlcon.Close();
+            }
+
+        }
+        bind();
+
+    }
+
+    /// <summary>
+    /// 取消选择
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        CheckBox2.Checked = false;
+        for (int i = 0; i <= GridView1.Rows.Count - 1; i++)
+        {
+            CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
+            cbox.Checked = false;
+        }
+    }
+
+    /// <summary>
+    /// 选择查询事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void selectxi_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string xl = selectxi.SelectedItem.Text;
+        selectbind2(xl);
+        this.selectbj.Items.Insert(0, new ListItem("请选择班级", "0"));
+    }
+
+    protected void Excel_Click(object sender, EventArgs e)
+    {
+
+    }
+
+
+    /// <summary>
+    /// 系dropdownlist 的DataSource 
+    /// </summary>
+    public void selectbind()
+    {
+        string ID = Request.QueryString["id"];
+        string sqlstr = "SELECT XM FROM Xi where College_ID=(SELECT College_ID FROM Teacher WHERE id='" + ID + "')";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        sqlcon.Close();
+        selectxi.DataSource = ds;
+        selectxi.DataTextField = "XM";
+        selectxi.DataBind();
+    }
+
+    /// <summary>
+    /// 班级dropdownlist 的DataSource
+    /// </summary>
+    /// <param name="x"></param>
+    public void selectbind2(string x)
+    {
+        string sqlstr = "SELECT CLM FROM banji WHERE xi_id=(SELECT Xi_id FROM Xi WHERE XM='" + x + "' )";
+
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        sqlcon.Close();
+        selectbj.DataSource = ds;
+        selectbj.DataTextField = "CLM";
+        selectbj.DataBind();
+    }
+
+
+    /// <summary>
+    /// 查询数据，重新进行gridview绑定
+    /// </summary>
+    /// <param name="sqlstr"></param>
+    public void searchBind(string sqlstr)
+    {
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        GridView1.DataSource = ds;                                     //设定gridview的datasourse
+        GridView1.DataKeyNames = new string[] { "ID" };//主键
+        GridView1.DataBind();
+        sqlcon.Close();
+    }
+
+
+    /// <summary>
+    /// gridview数据绑定
+    /// </summary>
+    public void bind()
+    {
+
+
+        string sqlstr = "select ID,Name,password,CLM from si,banji WHERE banji.Class_ID=si.classid";            //查询数据
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        GridView1.DataSource = ds;                                     //设定gridview的datasourse
+        GridView1.DataKeyNames = new string[] { "ID" };//主键
+        GridView1.DataBind();
+        sqlcon.Close();
+
+
+    }
+
+    /// <summary>
+    /// gridview修改
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView1.EditIndex = e.NewEditIndex;
+        bind();
+    }
+
+    /// <summary>
+    /// gridview更新
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        // 将GridView1.Rows[e.RowIndex].Cells[1].Controls[0]强制转换类型成textbox，
+        string nm = ((TextBox)(GridView1.Rows[e.RowIndex].Cells[2].Controls[0])).Text;
+        string pwd = ((TextBox)(GridView1.Rows[e.RowIndex].Cells[3].Controls[0])).Text;
+        string upstr = "UPDATE si SET Name='" + nm + "', password='" + pwd + "' WHERE ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
+
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter sda = new SqlDataAdapter(upstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        sda.Fill(ds);                   //填充dataset
+        sqlcon.Close();
+        GridView1.EditIndex = -1;      // EditIndex属性 要编辑的行从0开始 预设值为-1
+        bind();
+
+
+    }
+
+    /// <summary>
+    /// gridview 更新内取消功能
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;          //要编辑的行从0开始
+        bind();
+    }
+
+    /// <summary>
+    /// gridview删除行功能
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        string delstr = "DELETE FROM si WHERE ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'; DELECT FROM Experience WHERE ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "';DELECT FROM marriage WHERE ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "';DELECT FROM Relation WHERE ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        sda.Fill(ds);               //填充dataset
+        sqlcon.Close();
+        bind();
+
+    }
+
+    /// <summary>
+    /// gridview分页
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Gridview1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        RememberOldValues();
+        this.GridView1.PageIndex = e.NewPageIndex;
+        this.bind();
+        RePopulateValues();
+    }
+
+    public void PageIndexchange(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        bind();
+    }
+
+    /// <summary>
+    /// 分页选择读取上一页选择内容
+    /// </summary>
+    private void RememberOldValues()
+    {
+        ArrayList cateList = new ArrayList();
+        foreach (GridViewRow row in GridView1.Rows)                                     //遍历Gridview行数
+        {
+            string index = GridView1.DataKeys[row.RowIndex].Value.ToString();           //获得checkbox选中的Gridview.DataKeys
+             
+            bool result = ((CheckBox)row.FindControl("CheckBox1")).Checked;             //获得checkbox选中情况
+
+            if (Session["CHECKED_ITEMS"] != null)                                       //检查Session是否为空
+                cateList = (ArrayList)Session["CHECKED_ITEMS"];
+            if (result)                                                                 //判断有没有checkbox选中列
+            {
+                if (!cateList.Contains(index))
+                    cateList.Add(index);                                                 //if true，将index add到 list中                
+            }
+            else
+                cateList.Remove(index);                                               //false ，移除index
+        }
+        if (cateList != null && cateList.Count > 0)
+            Session["CHECKED_ITEMS"] = cateList;                                        //if list不为空，将list 加入到Session中
+    }
+
+    /// <summary>
+    /// 分页选择读取所有页面选择内容
+    /// </summary>
+    private void RePopulateValues()
+    {
+        ArrayList cateList = (ArrayList)Session["CHECKED_ITEMS"];                   //将Session值赋值到list
+        if (cateList != null && cateList.Count > 0)                                 //判断list是否为空
+        {
+            foreach (GridViewRow row in GridView1.Rows)                             //遍历Gridview rows
+            {
+
+                string index = GridView1.DataKeys[row.RowIndex].Value.ToString();
+                if (cateList.Contains(index))                                              //判断有没有chenckbox选过
+                {
+                    CheckBox myCheckBox = (CheckBox)row.FindControl("CheckBox1");
+                    myCheckBox.Checked = true;                                            //true，将checkbox勾选上
+                }
+            }
+        }
+    }
+
+    protected void test_Click(object sender, EventArgs e)
+    {
+        int x = GridView1.PageCount;
+        int y = GridView1.PageIndex;
+        Response.Write(@"<script>alert('"+y+"');</script>");
     }
 }
