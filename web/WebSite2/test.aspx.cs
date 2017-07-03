@@ -12,6 +12,8 @@ using System.Data.SqlClient;
 public partial class test : System.Web.UI.Page
 {
     string connStr = "server=DESKTOP-RNBGQQS;uid=sa;pwd=123456;database=StudentsInfo";    //连接数据库
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -19,6 +21,7 @@ public partial class test : System.Web.UI.Page
 
     protected void dowChick(object sender, EventArgs e)
     {
+
         string id = "2016级计算机科学与技术（专升本）";
         if (System.IO.File.Exists(Server.MapPath("/Excel/" + id + ".xlsx")))
         {

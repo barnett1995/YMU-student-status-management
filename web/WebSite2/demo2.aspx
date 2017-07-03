@@ -88,9 +88,8 @@
         <p>
           <asp:UpdatePanel ID="UpdatePanel3" runat="server">
               <ContentTemplate>
-            <asp:GridView ID="GridView1" runat="server" Height="133px" Width="539px" AllowPaging="true" PageSize="10"
+            <asp:GridView ID="GridView1" runat="server" Height="133px" Width="539px"
           AutoGenerateColumns="False" DataKeyNames="id"  
-          OnPageindexChanging="Gridview1_PageIndexChanging" 
           OnRowEditing="GridView1_RowEditing" BackColor="White" BorderColor="White"   
           BorderStyle="Ridge" BorderWidth="2px" CellPadding="3"  CellSpacing="1"   
           GridLines="None"
@@ -116,7 +115,7 @@
                    查看学生信息
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <asp:Button ID="chakan" runat="server" Text="查看信息" />
+                    <asp:Button ID="chakan" runat="server" Text="查看信息" onclick="chakan_Click" />
                 </ItemTemplate>
             </asp:TemplateField>            
             <asp:CommandField HeaderText="编辑" ShowEditButton="True" />    
@@ -126,33 +125,21 @@
        <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />    
        <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />    
        <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />    
-       <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" />  
-             
-       <PagerTemplate>
-        <br />
-         <asp:Label ID="lblPage1" runat="server" Text='<%# "第" + (((GridView)Container.NamingContainer).PageIndex + 1)  + "页" %> '></asp:Label>
-          &nbsp; &nbsp;
-       <asp:Label ID="lblPage" runat="server" Text='<%# "共" + (((GridView)Container.NamingContainer).PageCount) + "页" %> '></asp:Label>
-          &nbsp; &nbsp;
-         <asp:LinkButton ID="lbnFirst" runat="Server" Text="首页"  Enabled='<%# ((GridView)Container.NamingContainer).PageIndex != 0 %>' CommandName="Page" CommandArgument="First" ></asp:LinkButton>
-        <asp:LinkButton ID="lbnPrev" runat="server" Text="上一页" Enabled='<%# ((GridView)Container.NamingContainer).PageIndex != 0 %>' CommandName="Page" CommandArgument="Prev" ></asp:LinkButton>
-        <asp:LinkButton ID="lbnNext" runat="Server" Text="下一页" Enabled='<%# ((GridView)Container.NamingContainer).PageIndex != (((GridView)Container.NamingContainer).PageCount - 1) %>' CommandName="Page" CommandArgument="Next" ></asp:LinkButton>
-         <asp:LinkButton ID="lbnLast" runat="Server" Text="尾页"   Enabled='<%# ((GridView)Container.NamingContainer).PageIndex != (((GridView)Container.NamingContainer).PageCount - 1) %>' CommandName="Page" CommandArgument="Last" ></asp:LinkButton>
-         <br />
-     </PagerTemplate>  
+       <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" />             
    </asp:GridView>  
     
        <asp:CheckBox ID="CheckBox2" runat="server" AutoPostBack="True" Font-Sizep="9pt" OnCheckedChanged="CheckBox2_CheckedChanged" Text="全选" />
-         &nbsp; &nbsp; 
+         &nbsp; &nbsp;&nbsp; &nbsp; 
        <asp:Button ID="Button1" runat="server" Font-Size="12pt" Text="取消" OnClick="Button1_Click" />
-         &nbsp; &nbsp;
+         &nbsp; &nbsp;&nbsp; &nbsp;
        <asp:Button ID="Button2" runat="server" Font-Size="12pt" Text="删除" OnClick="Button2_Click" />
-          &nbsp; &nbsp;
-       <asp:Button ID="excel" runat="server" Text="导出excel" OnClick="Excel_Click"  />
+          &nbsp; &nbsp;&nbsp; &nbsp;
+       
      
     </ContentTemplate>
     </asp:UpdatePanel>
          <asp:Button ID="test" runat="server" Text="test" OnClick="test_Click"  />
+        <asp:Button ID="excel" runat="server" Text="导出excel" OnClick="Excel_Click" BorderStyle="None"  />
             
             </div>
    
