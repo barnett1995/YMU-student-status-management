@@ -14,8 +14,20 @@ public partial class College : System.Web.UI.Page
     string connStr = "server=DESKTOP-RNBGQQS;uid=sa;pwd=123456;database=StudentsInfo";
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            listbind();
+            bind();
+        }
     }
+
+    //Excel上传部分
+
+    /// <summary>
+    ///excel 上传按钮事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void shangchuan_Click(object sender, EventArgs e)
     {
         if (FileUpload1.HasFiles)
@@ -30,13 +42,14 @@ public partial class College : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-
+                Response.Redirect("College.aspx");
 
             }
         }
         else
         {
             Response.Write(@"<script>alert('请选择文件！');</script>");
+            Response.Redirect("College.aspx");
 
         }
         // Response.Redirect("application0.aspx");
@@ -146,6 +159,331 @@ public partial class College : System.Web.UI.Page
         {
             return null;
         }
+
+    }
+
+    //数据单条添加
+
+    /// <summary>
+    /// 单条添加
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void add_ServerClick(object sender, EventArgs e)
+    {
+        string id = upid.Value;
+        string nm = upname.Value;
+        string xy = xylist.SelectedItem.Text;
+
+        string sestr = "SELECT * FROM Xi WHERE Xi_id='" + id + "' OR XM='" + nm + "' AND College_ID=(SELECT College_ID FROM College WHERE CM='" + xy + "')";
+
+
+        if (id == "" || nm == "")
+        {
+            Response.Write(@"<script>alert('增添的信息不能为空！');</script>");
+        }
+        else
+        {
+            SqlConnection conn = new SqlConnection(connStr);                         //连接的数据库名称
+            SqlDataAdapter da = new SqlDataAdapter(sestr, conn);
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            conn.Open();                                                             //打开数据库
+            da.Fill(dt);                                                            //将数据填充到DataTable（dt）         
+            conn.Close();
+            //string a = dt1.Rows[0]["classid"].ToString();
+            //int cid = 0;
+            //int.TryParse(a, out cid);                                             //强制类型转换，string转int
+            if (dt.Rows.Count == 1)                                               //从登录表读取数据，如果已经有输入信息，页面提示
+            {
+                Response.Write(@"<script>alert('已有该条记录！');</script>");
+            }
+            else
+            {
+                string selectStr = "SELECT College_ID FROM College WHERE CM='" + xy + "'";
+
+
+                SqlDataAdapter da2 = new SqlDataAdapter(selectStr, conn);
+                DataTable dt2 = new DataTable();
+                conn.Open();                                                             //打开数据库
+                da2.Fill(dt2);                                                            //将数据填充到DataTable（dt）
+                conn.Close();
+
+                string xyid = dt2.Rows[0]["College_ID"].ToString();
+                Response.Write(@"<script>alert('"+xyid+"');</script>");
+                string sqlStr = "INSERT INTO Xi(College_ID,XM,Xi_id) VALUES('" + xyid + "','" + nm + "','" + id + "')";
+      
+                SqlDataAdapter da3 = new SqlDataAdapter(sqlStr, conn);
+                DataSet ds = new DataSet();
+                conn.Open();                                                             //打开数据库
+                da3.Fill(ds);                                                            //将数据填充到DataTable（dt）
+                conn.Close();
+
+
+                Response.Write(@"<script>alert('上传成功！');</script>");
+                //bind();
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 学院dropdownlist 的DataSource 
+    /// </summary>
+    public void listbind()
+    {
+        string sqlstr = "select CM FROM College";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        sqlcon.Close();
+        xylist.DataSource = ds;
+        xylist.DataTextField = "CM";
+        xylist.DataBind();
+    }
+
+    //查询
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void chaxun_ServerClick(object sender, EventArgs e)
+    {
+
+        string id = xiid.Value;
+
+        if (id != "")
+        {
+            // 查询id
+            string sqlStr = "SELECT Xi.Xi_id,Xi.XM,College.CM FROM College,Xi WHERE Xi.Xi_id='" + id + "' AND College.College_ID=Xi.College_ID ";
+
+            searchBind(sqlStr);
+            show();
+        }
+        else
+        {
+            //提示错误
+            Response.Write(@"<script>alert('请正确选择或填写查询信息！');</script>");
+        }
+    }
+
+    /// <summary>
+    /// 查询数据，重新进行gridview绑定
+    /// </summary>
+    /// <param name="sqlstr"></param>
+    public void searchBind(string sqlstr)
+    {
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        GridView1.DataSource = ds;                                     //设定gridview的datasourse
+        GridView1.DataKeyNames = new string[] { "Xi_id" };//主键
+        GridView1.DataBind();
+        sqlcon.Close();
+    }
+
+
+    /// <summary>
+    /// 重置查询
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void restart_ServerClick(object sender, EventArgs e)
+    {
+        xiid.Value = "";
+        Response.AddHeader("Refresh", "0");
+    }
+
+    //gridview 部分
+
+        /// <summary>
+        /// 数据绑定
+        /// </summary>
+    public void bind()
+    {
+        Application.Lock();
+        string ID = Application["ID"].ToString();
+        Application.UnLock();
+        string sqlstr = "SELECT Xi.Xi_id,Xi.XM,College.CM FROM College, Xi WHERE College.College_ID = Xi.College_ID AND College.College_ID = (SELECT College_ID FROM Teacher WHERE Teacher.ID = '" + ID + "')";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        GridView1.DataSource = ds;                                     //设定gridview的datasourse
+        GridView1.DataKeyNames = new string[] { "Xi_id" };//主键
+        GridView1.DataBind();
+        sqlcon.Close();
+    }
+
+    /// <summary>
+    /// 全选gridveiw
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void CheckBox2_CheckedChanged(object sender, EventArgs e)
+    {
+        //.BottomPagerRow ,取得 GridViewRow 物件，代表下方頁面巡覽區的資料列中 GridView 控制  
+        CheckBox cbxHead = (CheckBox)GridView1.HeaderRow.FindControl("CheckBox2");
+
+        for (int i = 0; i <= GridView1.Rows.Count - 1; i++)
+        {
+            CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
+            if (cbxHead.Checked == true)
+            {
+                cbox.Checked = true;
+            }
+            else
+            {
+                cbox.Checked = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 删除全选
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        for (int i = 0; i <= GridView1.Rows.Count - 1; i++)
+        {
+            CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
+            if (cbox.Checked == true)
+            {
+                string delstr = "DELETE FROM Xi WHERE Xi_id='" + GridView1.DataKeys[i].Value.ToString() + "';DELETE FROM banji WHERE xi_id='" + GridView1.DataKeys[i].Value.ToString() + "'";
+
+                SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
+                DataSet ds = new DataSet();
+                sqlcon.Open();
+                sda.Fill(ds);
+                sqlcon.Close();
+            }
+
+        }
+        bind();
+      //  Response.Redirect("application0.aspx");
+
+    }
+
+    /// <summary>
+    /// 取消选择
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        CheckBox cbxHead = (CheckBox)GridView1.Rows[0].FindControl("CheckBox2");
+
+        for (int i = 0; i <= GridView1.Rows.Count - 1; i++)
+        {
+            CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
+            cbox.Checked = false;
+        }
+    }
+
+
+
+    /// <summary>
+    /// gridview修改
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>-
+    /// <summary>
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView1.EditIndex = e.NewEditIndex;
+        bind();
+
+    }
+
+
+    /// gridview更新
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        // 将GridView1.Rows[e.RowIndex].Cells[1].Controls[0]强制转换类型成textbox，
+        string nm = ((TextBox)(GridView1.Rows[e.RowIndex].Cells[2].Controls[0])).Text;
+        string upstr = "UPDATE Xi SET XM='" + nm + "' WHERE Xi_id='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
+
+
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter sda = new SqlDataAdapter(upstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        sda.Fill(ds);                   //填充dataset
+        sqlcon.Close();
+        GridView1.EditIndex = -1;      // EditIndex属性 要编辑的行从0开始 预设值为-1
+        Response.Write(@"<script>alert('更新成功');</script>");
+
+
+
+
+    }
+
+    /// <summary>
+    /// gridview 更新内取消功能
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;          //要编辑的行从0开始
+        bind();
+
+    }
+
+    /// <summary>
+    /// gridview删除行功能
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        string delstr = "DELETE FROM Xi WHERE Xi_id='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "';DELETE FROM banji WHERE xi_id='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        sda.Fill(ds);               //填充dataset
+        sqlcon.Close();
+        bind();
+
+
+    }
+
+
+
+    /// <summary>
+    /// 隐藏gridview操作控件
+    /// </summary>
+
+    public void hidden()
+    {
+
+        Button1.Style.Add("display", "None");
+        Button2.Style.Add("display", "None");
+
+
+    }
+
+    /// <summary>
+    /// 显示gridview操作控件
+    /// </summary>
+    public void show()
+    {
+
+        Button1.Style.Add("display", "Notset");
+        Button2.Style.Add("display", "Notset");
 
     }
 }
