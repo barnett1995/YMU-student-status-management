@@ -48,8 +48,9 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "demo2.aspx?id=" + id.Text;
-                    Response.Redirect(url);                                      //页面跳转
+                    
+                    Application["ID"] = id.Text;              
+                    Response.Redirect("application4.aspx");                                      //页面跳转
                 }
             }
             else if (xzr.Checked)
@@ -70,13 +71,13 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "demo.aspx?id=" + id.Text;
-                    Response.Redirect(url);                                      //页面跳转
+                    Application["ID"] = id.Text;
+                    Response.Redirect("Admin0.aspx");                                     //页面跳转
                 }
             }
             else if (bzr.Checked)
             {
-                string selectstr = "select ID,Password,Position from Teacher where ID='" + ID + "' and password='" + PWD + "' and Position='" + BZR + "'";       //数据库查询
+                string selectstr = "select ID,Password,Position from Teacher where ID='" + ID + "' and password='" + PWD + "' and Position='" + BZR + "'";                                        //数据库查询
                 SqlConnection conn = new SqlConnection(connStr);                         //连接的数据库名称
                 SqlDataAdapter da = new SqlDataAdapter(selectstr, conn);
                 DataTable dt = new DataTable();
@@ -92,8 +93,8 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    string url = "demo.aspx?id=" + id.Text;
-                    Response.Redirect(url);                                      //页面跳转
+                    Application["ID"] = id.Text;
+                    Response.Redirect("Teacher.aspx");                                  //页面跳转
                 }
             }
         }       

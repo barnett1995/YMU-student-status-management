@@ -33,7 +33,7 @@
                             <label for="user" class="label">密码</label>
                             <asp:TextBox ID="pwd" runat="server" CssClass="TextBoxStyle" TextMode="Password"></asp:TextBox>
 						</div>
-                       <label><input id="xgb" name="Position" type="radio" runat="server"  value="学工部" />学工部 </label> 
+                       <label><input id="xgb" name="Position" type="radio" checked="true" runat="server"  value="学工部" />学工部 </label> 
                         &nbsp; &nbsp;
                         <label><input id="xzr" name="Position" type="radio" runat="server" value="系主任/辅导员" />系主任/辅导员 </label> 
                         &nbsp; &nbsp;
