@@ -50,7 +50,7 @@ public partial class login : System.Web.UI.Page
                 {
                     
                     Application["ID"] = id.Text;              
-                    Response.Redirect("application4.aspx");                                      //页面跳转
+                    Response.Redirect("College.aspx");                                      //页面跳转
                 }
             }
             else if (xzr.Checked)

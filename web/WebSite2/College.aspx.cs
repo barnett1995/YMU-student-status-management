@@ -5,21 +5,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using System.Collections;
-using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
-using System.Collections;
-using System.Data;
+using System.Data.OleDb;
 
-public partial class Default : System.Web.UI.Page
+public partial class College : System.Web.UI.Page
 {
     string connStr = "server=DESKTOP-RNBGQQS;uid=sa;pwd=123456;database=StudentsInfo";
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-
     protected void shangchuan_Click(object sender, EventArgs e)
     {
         if (FileUpload1.HasFiles)
@@ -34,14 +30,16 @@ public partial class Default : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-                Response.AddHeader("Refresh", "0");
+
 
             }
         }
         else
         {
             Response.Write(@"<script>alert('请选择文件！');</script>");
+
         }
+        // Response.Redirect("application0.aspx");
 
     }
 
@@ -104,13 +102,8 @@ public partial class Default : System.Web.UI.Page
             str.Rollback();
         }
         finally                                                             //finally 块释放资源，例如，关闭在 try 块中打开的任何流或文件。
-        {
-            //int a = Convert.ToInt32(k);
-            int num = k / 19;
-            Response.Write(@"<script>alert('上传成功" + num + " 条');</script>");
-            //File.Delete(filePath);                                          //上传完成删除文件
-           
-
+        {   
+            Response.Write(@"<script>alert('上传成功" + k+ " 条');</script>");
         }
     }
     /// <summary>  
@@ -127,7 +120,7 @@ public partial class Default : System.Web.UI.Page
 
         if (File.Exists(savePath + fileName))            //确定指定的文件是否存在。
         {
-            // System.IO.File.Delete(savePath + fileName);            //File.Delete 方法，删除指定文件
+            System.IO.File.Delete(savePath + fileName);            //File.Delete 方法，删除指定文件
         }
 
 
