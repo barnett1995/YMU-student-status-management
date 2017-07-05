@@ -1,15 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Admin0.aspx.cs" Inherits="Admin" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Admin0.aspx.cs" Inherits="Admin0" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form<!DOCTYPE html>
-<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>云南民族大学学籍管理系统(学院端)</title>
@@ -26,7 +19,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    <div>
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
      </asp:ScriptManager>
 	<div class="navbar">
 		<div class="navbar-inner">
@@ -67,9 +61,9 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="Admin0.aspx"><span class="hidden-tablet">班级管理</span></a></li>	
+						<li><a href="Admin0.aspx"><span class="hidden-tablet"> 班级管理</span></a></li>
 						<li><a href="Admin1.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
-						<li><a href="Admin2.aspx"><span class="hidden-tablet"> 学生管理</span></a></li>
+						<li><a href="Admin2.aspx"><span class="hidden-tablet">学生管理</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -79,34 +73,23 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">菜单</a> 
+					<a href="Admin0.aspx">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">功能模块1</a></li>
+				<li><a href="#">班级管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
-				
-				<a style="font-weight: 300;">学生信息Excel上传：</a>
+				 <p style="font-weight: 600">
+				<a style="font-weight: 300;">班级信息Excel上传：</a>
+                 <p>
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                  <p style="font-weight: 600">
-                 <input id="up" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click">
+                 <input id="up" style="width: 180px;height: 30px" value="上传" type="submit" runat="server" onserverclick="shangchuan_Click">
                  </p>
 				
-                        <a style="font-weight: 600;">单条添加学生信息：</a>
-                <p style="font-weight: 600">学号：<input id="upid" type="text" runat="server"></p>
-				<p style="font-weight: 600">姓名：<input id="upname" type="text" runat="server"></p>
-				<p style="font-weight: 600">密码：<input id="uppwd" type="text" runat="server"></p>
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
-                    <p style="font-weight: 600">选择学院:
-                    <asp:DropDownList ID="xylist" runat="server" Width="206px" AutoPostBack="True" OnSelectedIndexChanged="xylist_SelectedIndexChanged"></asp:DropDownList>
-                    </p>
-                    <p style="font-weight: 600">选择系：
-                    <asp:DropDownList ID="xilist" runat="server"  Width="206px" AutoPostBack="True" OnSelectedIndexChanged="xilist_SelectedIndexChanged"></asp:DropDownList>
-                    </p>
-                    <p style="font-weight: 600">选择班级:                                 
-                    <asp:DropDownList ID="banjilist" runat="server" Width="206px"></asp:DropDownList>
-                    </p>
+                  <a style="font-weight: 600;">单条添加班级信息：</a>
+                <p style="font-weight: 600">班级ID：<input id="upid" type="text" runat="server"></p>
+				<p style="font-weight: 600">班级名：<input id="upname" type="text" runat="server"></p>
                     <p style="font-weight: 600">选择年级：
                     <asp:DropDownList ID="nianjilist" runat="server" Width="206px" >
                                         <asp:ListItem>2014级</asp:ListItem>
@@ -119,8 +102,7 @@
                                            
                    </asp:DropDownList>
                    </p>
-                </ContentTemplate>
-                </asp:UpdatePanel>
+       
                 <p style="font-weight: 300">
                 <input id="add" type="submit" value="保存" style="width: 180px;height: 30px" runat="server" onserverClick="add_ServerClick"
                     >
@@ -128,17 +110,12 @@
                 <p style="font-weight: 800">
                     &nbsp; 
                
-              <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-              <ContentTemplate>
+             
                 
            
-                <a style="font-weight: 600;">查询学生信息：</a>      
-                <p style="font-weight: 600">选择系：
-                <asp:DropDownList ID="selectxi" runat="server"  Width="206px" AutoPostBack="True" OnSelectedIndexChanged="selectxi_SelectedIndexChanged"></asp:DropDownList>
-                </p>
-                <p style="font-weight: 600">选择班级：
-                <asp:DropDownList ID="selectbj" runat="server" Width="206px"></asp:DropDownList>
-                </p>
+                <a style="font-weight: 600;">查询班级信息：</a>      
+                <p style="font-weight: 600">班级ID：<input id="xuehao" type="text" runat="server" >
+				</p>
                 <p style="font-weight: 600">选择年级：
                 <asp:DropDownList ID="selectnj" runat="server" Width="206px">
                     <asp:ListItem>2014级</asp:ListItem>
@@ -150,10 +127,7 @@
                     <asp:ListItem>2020级</asp:ListItem>
                 </asp:DropDownList>
                 </p >
-                 </ContentTemplate>
-                    </asp:UpdatePanel>
-				    <p style="font-weight: 600">学号：<input id="xuehao" type="text" runat="server" >
-				    </p>
+                 			    
                     <p style="font-weight: 600">
 				    <input type="submit" value="查询" style="width: 180px;height: 30px" id="chaxun" runat="server" onserverclick="chaxun_ServerClick">
                     </p>
@@ -164,12 +138,10 @@
 				<asp:UpdatePanel ID="UpdatePanel3" runat="server">
               <ContentTemplate>
                     <asp:GridView ID="GridView1" runat="server" Height="133px" Width="584px"
-                  AutoGenerateColumns="False" DataKeyNames="id"  align="center"
-                  OnRowEditing="GridView1_RowEditing" BackColor="White" BorderColor="White"   
+                  AutoGenerateColumns="False" DataKeyNames="Class_ID"  align="center"
+                  BackColor="White" BorderColor="White"   
                   BorderStyle="Ridge" BorderWidth="2px" CellPadding="3"  CellSpacing="1"   
                   GridLines="None"
-                  OnRowUpdating="GridView1_RowUpdating"   
-                  OnRowCancelingEdit="GridView1_RowCancelingEdit"   
                   OnRowDeleting="GridView1_RowDeleting" HorizontalAlign="Center"
                  >   
               <Columns>    
@@ -181,19 +153,10 @@
                              <asp:CheckBox ID="CheckBox1" runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="ID" HeaderText="学号" ReadOnly="True"/>    
-                    <asp:BoundField DataField="Name" HeaderText="姓名" DataFormatString="{0:000#}" /> 
-                    <asp:BoundField DataField="password" HeaderText="密码" DataFormatString="{0:000#}" /> 
-                    <asp:BoundField DataField="password" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
-                    <asp:TemplateField>
-                        <HeaderTemplate>
-                           查看学生信息
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <asp:Button ID="chakan" runat="server" Text="查看信息" onclick="chakan_Click" />
-                        </ItemTemplate>
-                    </asp:TemplateField>            
-                    <asp:CommandField HeaderText="编辑" ShowEditButton="True" />    
+                    <asp:BoundField DataField="Class_ID" HeaderText="班级ID" ReadOnly="True"/>    
+                    <asp:BoundField DataField="CLM" HeaderText="班级名" DataFormatString="{0:000#}" /> 
+                    <asp:BoundField DataField="grade" HeaderText="年级" DataFormatString="{0:000#}" /> 
+                    <asp:BoundField DataField="XM" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />      
                     <asp:CommandField HeaderText="删除" ShowDeleteButton="True" />    
                </Columns>    
                <RowStyle BackColor="#DEDFDE" ForeColor="Black" />    
@@ -206,12 +169,13 @@
        </div>		
     </ContentTemplate>
     </asp:UpdatePanel>
+  
         <p style="font-weight: 300; width: 579px;">
         <asp:Button ID="Button1" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="取消全选" OnClick="Button1_Click" />
         &nbsp; &nbsp;
         <asp:Button ID="Button2" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="删除" OnClick="Button2_Click" />
         &nbsp; &nbsp;
-        <asp:Button ID="excel" runat="server" style="width: 100px;height: 30px" Text="导出excel" OnClick="Excel_Click"/>
+
         </P>
 			
 			</div>
@@ -271,6 +235,7 @@
 		<script src="js/counter.js"></script>
 		<script src="js/retina.js"></script>
 		<script src="js/custom.js"></script>
+    </div>
     </form>
 </body>
 </html>

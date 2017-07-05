@@ -64,7 +64,7 @@
 						<li><a href="College1.aspx"><span class="hidden-tablet"> 系主任&辅导员管理</span></a></li>
 						<li><a href="College2.aspx"><span class="hidden-tablet"> 班级管理</span></a></li>
 						<li><a href="College3.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
-						<li><a href="application4.aspx"><span class="hidden-tablet"> 学生管理</span></a></li>
+						<li><a href="College4.aspx"><span class="hidden-tablet"> 学生管理</span></a></li>
 					
 					</ul>
 				</div>

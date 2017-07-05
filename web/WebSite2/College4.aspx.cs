@@ -31,10 +31,7 @@ public partial class application4 : System.Web.UI.Page
 
         }
     }
-
-    //Excel操作部分
-
-    /// <summary>
+  /// <summary>
     /// excel批量上传
     /// </summary>
     /// <param name="sender"></param>
@@ -53,7 +50,7 @@ public partial class application4 : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-                Response.AddHeader("Refresh", "0");
+                
 
             }
         }
@@ -176,6 +173,9 @@ public partial class application4 : System.Web.UI.Page
 
     }
 
+    //Excel操作部分
+
+  
     //学生信息单条添加
 
 
@@ -348,21 +348,21 @@ public partial class application4 : System.Web.UI.Page
         if (id != "")
         {
             // 查询id
-            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "' AND nianji='" + nj + "' AND banji.Class_ID=si.classid";
+            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "'  AND banji.Class_ID=si.classid";
             searchBind(sqlStr);
             show();
         }
         else if (xi != "请选择系" && cl == "请选择班级")
         {
             //查询系
-            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND si.xi_ID=(SELECT Xi_id FROM Xi WHERE XM='" + xi + "')";
+            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND si.xi_ID=(SELECT Xi_id FROM Xi WHERE XM='"+xi+"')";
             searchBind(sqlStr1);
             show();
         }
         else if (xi != "" && cl != "请选择班级")
         {
             //查询班级
-            string sqlStr2 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "')";
+            string sqlStr2 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "' AND grade='"+nj+"')";
             searchBind(sqlStr2);
             show();
         }
@@ -488,7 +488,7 @@ public partial class application4 : System.Web.UI.Page
             }
 
         }
-        Response.AddHeader("Refresh", "0");
+
 
     }
 

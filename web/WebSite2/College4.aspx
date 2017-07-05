@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="application4.aspx.cs" Inherits="application4" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="College4.aspx.cs" Inherits="application4" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,11 +59,11 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="application0.aspx"><span class="hidden-tablet">系管理</span></a></li>	
-						<li><a href="application1.aspx"><span class="hidden-tablet">系主任/辅导员 管理</span></a></li>
-						<li><a href="application2.aspx"><span class="hidden-tablet"> 班级管理</span></a></li>
-						<li><a href="application3.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
-						<li><a href="application4.aspx"><span class="hidden-tablet">学生管理</span></a></li>
+						<li><a href="College.aspx"><span class="hidden-tablet">系管理</span></a></li>	
+						<li><a href="College1.aspx"><span class="hidden-tablet">系主任/辅导员 管理</span></a></li>
+						<li><a href="College2.aspx"><span class="hidden-tablet"> 班级管理</span></a></li>
+						<li><a href="College3.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
+						<li><a href="College4.aspx"><span class="hidden-tablet">学生管理</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 					<a href="index.html">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">功能模块1</a></li>
+				<li><a href="College4">学生信息管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
 				 

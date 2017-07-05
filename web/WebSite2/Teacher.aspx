@@ -3,13 +3,6 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form<!DOCTYPE html>
-<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>云南民族大学学籍管理系统(学院端)</title>
@@ -26,7 +19,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
+       <asp:ScriptManager ID="ScriptManager1" runat="server">
      </asp:ScriptManager>
 	<div class="navbar">
 		<div class="navbar-inner">
@@ -67,9 +60,11 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="Admin0.aspx"><span class="hidden-tablet">班级管理</span></a></li>	
-						<li><a href="Admin1.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
-						<li><a href="Admin2.aspx"><span class="hidden-tablet"> 学生管理</span></a></li>
+						<li><a href="College.aspx"><span class="hidden-tablet">系管理</span></a></li>	
+						<li><a href="College1.aspx"><span class="hidden-tablet">系主任/辅导员 管理</span></a></li>
+						<li><a href="College2.aspx"><span class="hidden-tablet"> 班级管理</span></a></li>
+						<li><a href="College3.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
+						<li><a href="College4.aspx"><span class="hidden-tablet">学生管理</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -82,20 +77,22 @@
 					<a href="index.html">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">功能模块1</a></li>
+				<li><a href="College4">学生信息管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
-				
+				 
 				<a style="font-weight: 300;">学生信息Excel上传：</a>
+                 <p style="font-weight: 600">
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
+                 </p>
                  <p style="font-weight: 600">
                  <input id="up" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click">
                  </p>
 				
                         <a style="font-weight: 600;">单条添加学生信息：</a>
-                <p style="font-weight: 600">学号：<input id="upid" type="text" runat="server"></p>
-				<p style="font-weight: 600">姓名：<input id="upname" type="text" runat="server"></p>
-				<p style="font-weight: 600">密码：<input id="uppwd" type="text" runat="server"></p>
+                <p style="font-weight: 600">学号：<input id="upid" type="text" runat="server" /></p>
+				<p style="font-weight: 600">姓名：<input id="upname" type="text" runat="server" /></p>
+				<p style="font-weight: 600">密码：<input id="uppwd" type="text" runat="server" /></p>
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
                     <p style="font-weight: 600">选择学院:
@@ -132,24 +129,7 @@
               <ContentTemplate>
                 
            
-                <a style="font-weight: 600;">查询学生信息：</a>      
-                <p style="font-weight: 600">选择系：
-                <asp:DropDownList ID="selectxi" runat="server"  Width="206px" AutoPostBack="True" OnSelectedIndexChanged="selectxi_SelectedIndexChanged"></asp:DropDownList>
-                </p>
-                <p style="font-weight: 600">选择班级：
-                <asp:DropDownList ID="selectbj" runat="server" Width="206px"></asp:DropDownList>
-                </p>
-                <p style="font-weight: 600">选择年级：
-                <asp:DropDownList ID="selectnj" runat="server" Width="206px">
-                    <asp:ListItem>2014级</asp:ListItem>
-                    <asp:ListItem>2015级</asp:ListItem>
-                    <asp:ListItem>2016级</asp:ListItem>
-                    <asp:ListItem>2017级</asp:ListItem>
-                    <asp:ListItem>2018级</asp:ListItem>
-                    <asp:ListItem>2019级</asp:ListItem>
-                    <asp:ListItem>2020级</asp:ListItem>
-                </asp:DropDownList>
-                </p >
+                <a style="font-weight: 600;">查询学生信息：</a>
                  </ContentTemplate>
                     </asp:UpdatePanel>
 				    <p style="font-weight: 600">学号：<input id="xuehao" type="text" runat="server" >
@@ -238,7 +218,7 @@
 	<div class="clearfix"></div>
 	<footer>
 		<p>
-			<span style="text-align:left;float:left">云南民族大学 &copy; 2017.职业技术学院 &copy; 山沟猫版权所有.</span>
+			<span style="text-align:left;float:left">云南民族大学 &copy; 2017.职业技术学院 &copy;版权所有.</span>
 		</p>
 	</footer>
 		<script src="js/jquery-1.9.1.min.js"></script>

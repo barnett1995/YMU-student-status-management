@@ -9,18 +9,16 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Collections;
 using System.Data;
-public partial class Admin0 : System.Web.UI.Page
+
+public partial class College3 : System.Web.UI.Page
 {
     string connStr = "server=DESKTOP-RNBGQQS;uid=sa;pwd=123456;database=StudentsInfo";
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            
-           
+            selectbind();
             bind();
-
-
         }
     }
 
@@ -44,7 +42,7 @@ public partial class Admin0 : System.Web.UI.Page
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
                 bind();
-                Response.Redirect("College2.aspx");
+                Response.Redirect("College3.aspx");
 
             }
         }
@@ -64,7 +62,7 @@ public partial class Admin0 : System.Web.UI.Page
     {
         /*
         Microsoft.ACE.OLEDB.12.0 基本操作
-        Provider = Microsoft.ACE.OLEDB.12.0 链接驱动 需在服务器端下载  Microsoft.ACE.OLEDB.12.0，向下支持Microsoft Jet Database Engine 4.0
+        Provider = Microsoft.ACE.OLEDB.12.0 链接驱动 需在服务器端下载  Microsoft.ACE.OLEDB.12.0，向下支持Microsoft Jet Database Engine 4.0'
         Data Source=" + savePath + "; 数据库地址
         Extended Properties='Excel 12.0; 连接的是Exce 12.0
         HDR=YES;    有两个值:YES/ NO, 这2个值，说了你是否能直接读列名，NO，只可以读下标
@@ -100,7 +98,7 @@ public partial class Admin0 : System.Web.UI.Page
         {
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                string sqlStr = "insert into banji(Class_ID,CLM,xi_id,grade) VALUES('" + ds.Tables[0].Rows[i][0].ToString() + "','" + ds.Tables[0].Rows[i][1].ToString() + "','" + ds.Tables[0].Rows[i][2].ToString() + "','" + ds.Tables[0].Rows[i][3].ToString() + "')";
+                string sqlStr = "insert into Teacher(ID,TeacheName,Password,Position,College_ID,xi_id,Class_ID) VALUES('" + ds.Tables[0].Rows[i][0].ToString() + "','" + ds.Tables[0].Rows[i][1].ToString() + "','" + ds.Tables[0].Rows[i][2].ToString() + "','班主任','" + ds.Tables[0].Rows[i][3].ToString() + "','" + ds.Tables[0].Rows[i][4].ToString() + "','" + ds.Tables[0].Rows[i][5].ToString() + "')";
                 SqlCommand cmd = new SqlCommand(sqlStr, conn, str);          //表示要对 SQL Server 数据库执行的一个 Transact-SQL 语句或存储过程
                 cmd.Transaction = str;                                        //执行SqlCommand的SqlTransaction
                 k += cmd.ExecuteNonQuery();                                  //返回受影响的行数
@@ -165,7 +163,7 @@ public partial class Admin0 : System.Web.UI.Page
 
     }
 
-    //单条添加
+    //添加
     /// <summary>
     /// 单条添加
     /// </summary>
@@ -175,12 +173,13 @@ public partial class Admin0 : System.Web.UI.Page
     {
         string id = upid.Value;
         string nm = upname.Value;
-        string nj = nianjilist.SelectedItem.Text;
+        string pwd = uppwd.Value;
+        string bj = banji.Value;
 
 
-        string sestr = "SELECT * FROM banji WHERE ID='" + id + "' AND TeacheName='" + nm + "' AND  grade='" + nj + "'";
+        string sestr = "SELECT * FROM Teacher WHERE ID='" + id + "' AND TeacheName='" + nm + "' AND  Class_ID='" + bj + "'";
 
-        if (id == "" || nm == "")
+        if (id == "" || nm == "" || pwd == "" || bj =="")
         {
             Response.Write(@"<script>alert('增添的信息不能为空！');</script>");
         }
@@ -202,11 +201,8 @@ public partial class Admin0 : System.Web.UI.Page
             }
             else
             {
-                Application.Lock();
-                string ID = Application["ID"].ToString();
-                Application.UnLock();
+                string selectStr = "SELECT College_ID,Xi_id FROM Xi WHERE Xi.Xi_id=(select xi_id FROM banji WHERE Class_ID='"+bj+"')";
 
-                string selectStr = "SELECT xi_id FROM Teacher WHERE ID='" + ID+"' ";
 
                 SqlDataAdapter da2 = new SqlDataAdapter(selectStr, conn);
                 DataTable dt2 = new DataTable();
@@ -214,30 +210,37 @@ public partial class Admin0 : System.Web.UI.Page
                 da2.Fill(dt2);                                                            //将数据填充到DataTable（dt）
                 conn.Close();
 
-                string xid = dt2.Rows[0]["xi_id"].ToString();
-                string instr = "insert into banji(Class_ID, CLM, xi_id, grade) VALUES('" + id + "','" + nm + "','" + xid + "','" + nj + "')";
+                if (dt2.Rows.Count == 1)
+                {
+                    string collegeid = dt2.Rows[0]["College_ID"].ToString();
+                    string xiid = dt2.Rows[0]["Xi_id"].ToString();
+                    string instr = "insert into Teacher(ID,TeacheName,Password,Position,College_ID,xi_id,Class_ID) VALUES('" + id + "','" + nm + "','" + pwd + "','班主任','" + collegeid + "','" + xiid + "','" + bj + "')";
+             
 
-                SqlDataAdapter da3 = new SqlDataAdapter(instr, conn);
-                DataTable dt3 = new DataTable();
-                conn.Open();                                                             //打开数据库
-                da3.Fill(dt3);                                                            //将数据填充到DataTable（dt）
-                conn.Close();
+                    SqlDataAdapter da3 = new SqlDataAdapter(instr, conn);
+                    DataTable dt3 = new DataTable();
+                    conn.Open();                                                             //打开数据库
+                    da3.Fill(dt3);                                                            //将数据填充到DataTable（dt）
+                    conn.Close();
 
 
-                Response.Write(@"<script>alert('上传成功！');</script>");
-    
-                bind();
+                    Response.Write(@"<script>alert('上传成功！');</script>");
+
+                    bind();
+                }
+                else
+                {
+                }
+
+               
+                
             }
         }
 
     }
 
 
-
-
-
     //查询
-
     /// <summary>
     /// 查询
     /// </summary>
@@ -245,20 +248,63 @@ public partial class Admin0 : System.Web.UI.Page
     /// <param name="e"></param>
     protected void chaxun_ServerClick(object sender, EventArgs e)
     {
-
+        string xi = selectxi.SelectedItem.Text;
         string id = xuehao.Value;
 
         if (id != "")
         {
             // 查询id
-            string sqlStr = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Class_ID='" + id + "' AND banji.xi_id=Xi.Xi_id";
+            string sqlStr = "SELECT ID,TeacheName,Password,XM,CLM,banji.grade FROM Teacher,Xi,banji WHERE Teacher.ID = '" + id + "' AND Teacher.Class_ID = banji.Class_ID AND Xi.Xi_id = Teacher.xi_id";
+            
             searchBind(sqlStr);
             show();
         }
-        else
+        else if (xi != "请选择系" && id == "")
         {
-            Response.Write(@"<script>alert('请填写正确查询信息！');</script>");
+            //查询系
+            string sqlStr1 = "SELECT ID,TeacheName,Password,XM,CLM,banji.grade FROM Teacher,Xi,banji WHERE Xi.XM = '" + xi + "' AND Teacher.Class_ID = banji.Class_ID AND Xi.Xi_id = Teacher.xi_id";
+            searchBind(sqlStr1);
+            show();
         }
+        else if (xi == "请选择系" && id == "")
+        {
+            //提示错误
+            Response.Write(@"<script>alert('请正确选择或填写查询信息！');</script>");
+        }
+    }
+
+
+
+    /// <summary>
+    /// 重置查询
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void restart_ServerClick(object sender, EventArgs e)
+    {
+        this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
+        selectbind();
+        xuehao.Value = "";
+    }
+
+    /// <summary>
+    /// 系dropdownlist 的DataSource 
+    /// </summary>
+    public void selectbind()
+    {
+        Application.Lock();
+        string ID = Application["ID"].ToString();
+        Application.UnLock();
+        string sqlstr = "SELECT XM FROM Xi where College_ID=(SELECT College_ID FROM Teacher WHERE id='" + ID + "')";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        sqlcon.Close();
+        selectxi.DataSource = ds;
+        selectxi.DataTextField = "XM";
+        selectxi.DataBind();
     }
 
     /// <summary>
@@ -274,25 +320,12 @@ public partial class Admin0 : System.Web.UI.Page
         sqlcon.Open();
         da.Fill(ds);
         GridView1.DataSource = ds;                                     //设定gridview的datasourse
-        GridView1.DataKeyNames = new string[] { "Class_ID" };//主键
+        GridView1.DataKeyNames = new string[] { "ID" };//主键
         GridView1.DataBind();
         sqlcon.Close();
     }
 
-    /// <summary>
-    /// 重置查询
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void restart_ServerClick(object sender, EventArgs e)
-    {
-        
-        xuehao.Value = "";
-        bind();
-    }
-
     //gridview
-
 
     /// <summary>
     /// 数据绑定
@@ -302,17 +335,18 @@ public partial class Admin0 : System.Web.UI.Page
         Application.Lock();
         string ID = Application["ID"].ToString();
         Application.UnLock();
-        string sqlstr = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Xi.Xi_id=(SELECT xi_id FROM Teacher WHERE ID='" + ID + "') AND banji.xi_id=Xi.Xi_id";
+        string sqlstr = "SELECT ID,TeacheName,Password,XM,CLM,banji.grade FROM Teacher,Xi,banji WHERE Teacher.Class_ID = banji.Class_ID AND Xi.Xi_id = Teacher.xi_id AND Teacher.College_ID = (SELECT College_ID FROM Teacher WHERE Teacher.ID = '"+ID+"')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
         DataSet ds = new DataSet();
         sqlcon.Open();
         da.Fill(ds);
         GridView1.DataSource = ds;                                     //设定gridview的datasourse
-        GridView1.DataKeyNames = new string[] { "Class_ID" };//主键
+        GridView1.DataKeyNames = new string[] { "ID" };//主键
         GridView1.DataBind();
         sqlcon.Close();
     }
+
     /// <summary>
     /// 全选gridveiw
     /// </summary>
@@ -350,8 +384,8 @@ public partial class Admin0 : System.Web.UI.Page
             CheckBox cbox = (CheckBox)GridView1.Rows[i].FindControl("CheckBox1");
             if (cbox.Checked == true)
             {
+                string delstr = "DELETE FROM Teacher WHERE ID='" + GridView1.DataKeys[i].Value.ToString() + "'";
 
-                string delstr = "DELETE FROM banji WHERE Class_ID='" + GridView1.DataKeys[i].Value.ToString() + "'";
                 SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
                 DataSet ds = new DataSet();
                 sqlcon.Open();
@@ -361,6 +395,7 @@ public partial class Admin0 : System.Web.UI.Page
 
         }
         bind();
+        //  Response.Redirect("application0.aspx");
 
     }
 
@@ -380,10 +415,52 @@ public partial class Admin0 : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// gridview修改
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>-
+    /// <summary>
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView1.EditIndex = e.NewEditIndex;
+
+    }
+
+    /// gridview更新
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        // 将GridView1.Rows[e.RowIndex].Cells[1].Controls[0]强制转换类型成textbox，
+        string nm = ((TextBox)(GridView1.Rows[e.RowIndex].Cells[2].Controls[0])).Text;
+        string pwd = ((TextBox)(GridView1.Rows[e.RowIndex].Cells[3].Controls[0])).Text;
+        string upstr = "UPDATE Teacher SET TeacheName='" + nm + "', Password='" + pwd + "', WHERE ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
+
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter sda = new SqlDataAdapter(upstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        sda.Fill(ds);                   //填充dataset
+        sqlcon.Close();
+        GridView1.EditIndex = -1;      // EditIndex属性 要编辑的行从0开始 预设值为-1
+        bind();
 
 
 
+    }
 
+    /// <summary>
+    /// gridview 更新内取消功能
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;          //要编辑的行从0开始
+        bind();
+    }
 
 
     /// <summary>
@@ -393,9 +470,7 @@ public partial class Admin0 : System.Web.UI.Page
     /// <param name="e"></param>
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-
-        string delstr = "DELETE FROM banji WHERE Class_ID='" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
-
+        string delstr = "DELETE FROM Teacher WHERE ID= '" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
         DataSet ds = new DataSet();
@@ -406,7 +481,6 @@ public partial class Admin0 : System.Web.UI.Page
 
 
     }
-
 
 
 
@@ -433,5 +507,4 @@ public partial class Admin0 : System.Web.UI.Page
         Button2.Style.Add("display", "Notset");
 
     }
-
 }

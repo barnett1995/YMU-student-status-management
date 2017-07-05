@@ -18,11 +18,11 @@ public partial class Teacher : System.Web.UI.Page
         if (!IsPostBack)
         {
             hidden();
-
+            
             listbind();
-            selectbind();
-            this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
-            this.selectbj.Items.Insert(0, new ListItem("请选择班级", "0"));
+            Bind();
+            show();
+
             this.xylist.Items.Insert(0, new ListItem("请选择学院", "0"));
             this.xilist.Items.Insert(0, new ListItem("请选择系", "0"));
             this.banjilist.Items.Insert(0, new ListItem("请选择班级 ", "0"));
@@ -335,33 +335,18 @@ public partial class Teacher : System.Web.UI.Page
     /// <param name="e"></param>
     protected void chaxun_ServerClick(object sender, EventArgs e)
     {
-        string xi = selectxi.SelectedItem.Text;
-        string cl = selectbj.SelectedItem.Text;
-        string nj = selectnj.SelectedItem.Text;
+        
+       
         string id = xuehao.Value;
 
         if (id != "")
         {
             // 查询id
-            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "' AND nianji='" + nj + "' AND banji.Class_ID=si.classid";
+            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "'  AND banji.Class_ID=si.classid";
             searchBind(sqlStr);
             show();
-        }
-        else if (xi != "请选择系" && cl == "请选择班级")
-        {
-            //查询系
-            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND si.xi_ID=(SELECT Xi_id FROM Xi WHERE XM='" + xi + "')";
-            searchBind(sqlStr1);
-            show();
-        }
-        else if (xi != "" && cl != "请选择班级")
-        {
-            //查询班级
-            string sqlStr2 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "')";
-            searchBind(sqlStr2);
-            show();
-        }
-        else if (xi == "请选择系" && cl == "请选择班级")
+        }     
+        else
         {
             //提示错误
             Response.Write(@"<script>alert('请正确选择或填写查询信息！');</script>");
@@ -376,62 +361,12 @@ public partial class Teacher : System.Web.UI.Page
     /// <param name="e"></param>
     protected void restart_ServerClick(object sender, EventArgs e)
     {
-        this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
-        selectbind();
+
+
         xuehao.Value = "";
     }
 
-    /// <summary>
-    /// 选择查询事件
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void selectxi_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string xl = selectxi.SelectedItem.Text;
-        selectbind2(xl);
-        //o this.selectbj.Items.Insert(0, new ListItem("请选择班级", "0"));
-
-    }
-
-    /// <summary>
-    /// 系dropdownlist 的DataSource 
-    /// </summary>
-    public void selectbind()
-    {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
-        string sqlstr = "SELECT XM FROM Xi where College_ID=(SELECT College_ID FROM Teacher WHERE id='" + ID + "')";
-        SqlConnection sqlcon = new SqlConnection(connStr);
-        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
-        DataSet ds = new DataSet();
-        sqlcon.Open();
-        da.Fill(ds);
-        sqlcon.Close();
-        selectxi.DataSource = ds;
-        selectxi.DataTextField = "XM";
-        selectxi.DataBind();
-    }
-
-    /// <summary>
-    /// 班级dropdownlist 的DataSource
-    /// </summary>
-    /// <param name="x"></param>
-    public void selectbind2(string x)
-    {
-        string sqlstr = "SELECT CLM FROM banji WHERE xi_id=(SELECT Xi_id FROM Xi WHERE XM='" + x + "' )";
-
-        SqlConnection sqlcon = new SqlConnection(connStr);
-        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
-        DataSet ds = new DataSet();
-        sqlcon.Open();
-        da.Fill(ds);
-        sqlcon.Close();
-        selectbj.DataSource = ds;
-        selectbj.DataTextField = "CLM";
-        selectbj.DataBind();
-    }
+   
 
 
     //GridView部分
@@ -519,6 +454,25 @@ public partial class Teacher : System.Web.UI.Page
         GridView1.DataBind();
         sqlcon.Close();
     }
+
+
+    public void Bind()
+    {
+        Application.Lock();
+        string ID = Application["ID"].ToString();
+        Application.UnLock();
+        string sqlstr = "SELECT si.ID,si.Name,si.password,banji.CLM FROM si, banji, Teacher WHERE banji.Class_ID = si.classid AND  banji.Class_ID=(SELECT Class_ID FROM Teacher WHERE ID='"+ID+"')";
+        SqlConnection sqlcon = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
+        DataSet ds = new DataSet();
+        sqlcon.Open();
+        da.Fill(ds);
+        GridView1.DataSource = ds;                                     //设定gridview的datasourse
+        GridView1.DataKeyNames = new string[] { "ID" };//主键
+        GridView1.DataBind();
+        sqlcon.Close();
+    }
+
 
     /// <summary>
     /// gridview修改

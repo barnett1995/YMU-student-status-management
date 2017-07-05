@@ -42,14 +42,15 @@ public partial class College : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-                Response.Redirect("College.aspx");
+                bind();
+       
 
             }
         }
         else
         {
             Response.Write(@"<script>alert('请选择文件！');</script>");
-            Response.Redirect("College.aspx");
+            
 
         }
         // Response.Redirect("application0.aspx");
@@ -218,11 +219,12 @@ public partial class College : System.Web.UI.Page
                 conn.Open();                                                             //打开数据库
                 da3.Fill(ds);                                                            //将数据填充到DataTable（dt）
                 conn.Close();
+                bind();
+            
 
-
-                Response.Write(@"<script>alert('上传成功！');</script>");
-                //bind();
+               
             }
+            
         }
 
     }
@@ -301,7 +303,7 @@ public partial class College : System.Web.UI.Page
 
     //gridview 部分
 
-        /// <summary>
+    /// <summary>
         /// 数据绑定
         /// </summary>
     public void bind()
@@ -423,7 +425,7 @@ public partial class College : System.Web.UI.Page
         sda.Fill(ds);                   //填充dataset
         sqlcon.Close();
         GridView1.EditIndex = -1;      // EditIndex属性 要编辑的行从0开始 预设值为-1
-        Response.Write(@"<script>alert('更新成功');</script>");
+        bind();
 
 
 
