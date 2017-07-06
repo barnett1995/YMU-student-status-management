@@ -28,7 +28,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端)</h2></span></a>
+				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端) 系主任/辅导员 管理</h2></span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -73,7 +73,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">菜单</a> 
+					<a href="College1.aspx">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="College1.aspx">系主任&辅导员管理</a></li>
@@ -84,7 +84,7 @@
                  </p>
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                  <p style="font-weight: 600">
-                 <input id="up" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click">
+                 <input id="up" value="上传" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click">
                  </p>
 				
                  <a style="font-weight: 600;">单条添加系主任&辅导员：</a>
@@ -94,9 +94,6 @@
              
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
-                    <p style="font-weight: 600">选择学院:
-                    <asp:DropDownList ID="xylist" runat="server" Width="206px" AutoPostBack="True" OnSelectedIndexChanged="xylist_SelectedIndexChanged"></asp:DropDownList>
-                    </p>
                     <p style="font-weight: 600">选择系：
                     <asp:DropDownList ID="xilist" runat="server"  Width="206px" ></asp:DropDownList>
                     </p>

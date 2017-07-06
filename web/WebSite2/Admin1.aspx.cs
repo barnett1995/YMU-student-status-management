@@ -41,7 +41,7 @@ public partial class Admin1 : System.Web.UI.Page
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
                 bind();
-                Response.Redirect("College3.aspx");
+                Response.Redirect("Admin1.aspx");
 
             }
         }
@@ -225,10 +225,13 @@ public partial class Admin1 : System.Web.UI.Page
 
                     Response.Write(@"<script>alert('上传成功！');</script>");
 
-                    bind();
+                    
+                    Response.Redirect("Admin1.aspx");
+
                 }
                 else
                 {
+                    Response.Write(@"<script>alert('没有查询到系信息，请联系学工部或网站管理员添加！');</script>");
                 }
 
 
@@ -392,6 +395,7 @@ public partial class Admin1 : System.Web.UI.Page
     protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
     {
         GridView1.EditIndex = e.NewEditIndex;
+        bind();
 
     }
 

@@ -53,7 +53,8 @@ public partial class Teacher : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-                Response.AddHeader("Refresh", "0");
+                                                                     
+                Response.Redirect("Teacher.aspx");
 
             }
         }
@@ -259,11 +260,15 @@ public partial class Teacher : System.Web.UI.Page
                 string cid = dt2.Rows[0]["Class_ID"].ToString();
 
                 string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
-
+                SqlDataAdapter da3 = new SqlDataAdapter(instr, conn);
+                DataTable dt3 = new DataTable();
+                conn.Open();                                                             //打开数据库
+                da3.Fill(dt3);                                                            //将数据填充到DataTable（dt）
+                conn.Close();
 
                 Response.Write(@"<script>alert('上传成功！');</script>");
-                Response.AddHeader("Refresh", "0");
-                //  bind();
+
+                Response.Redirect("Teacher.aspx");
             }
         }
 
@@ -366,10 +371,12 @@ public partial class Teacher : System.Web.UI.Page
         xuehao.Value = "";
     }
 
-   
+
 
 
     //GridView部分
+
+ 
 
     /// <summary>
     /// 全选gridveiw
@@ -461,7 +468,7 @@ public partial class Teacher : System.Web.UI.Page
         Application.Lock();
         string ID = Application["ID"].ToString();
         Application.UnLock();
-        string sqlstr = "SELECT si.ID,si.Name,si.password,banji.CLM FROM si, banji, Teacher WHERE banji.Class_ID = si.classid AND  banji.Class_ID=(SELECT Class_ID FROM Teacher WHERE ID='"+ID+"')";
+        string sqlstr = "SELECT si.ID,si.Name,si.password,banji.CLM FROM si, banji WHERE banji.Class_ID = si.classid AND  banji.Class_ID=(SELECT Class_ID FROM Teacher WHERE ID='"+ID+"')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
         DataSet ds = new DataSet();
@@ -483,7 +490,7 @@ public partial class Teacher : System.Web.UI.Page
     protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
     {
         GridView1.EditIndex = e.NewEditIndex;
-
+        Bind();
     }
 
 
@@ -505,7 +512,7 @@ public partial class Teacher : System.Web.UI.Page
         sda.Fill(ds);                   //填充dataset
         sqlcon.Close();
         GridView1.EditIndex = -1;      // EditIndex属性 要编辑的行从0开始 预设值为-1
-
+        Bind();
 
 
     }
@@ -518,7 +525,7 @@ public partial class Teacher : System.Web.UI.Page
     protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         GridView1.EditIndex = -1;          //要编辑的行从0开始
-
+        Bind();
     }
 
     /// <summary>
@@ -535,7 +542,7 @@ public partial class Teacher : System.Web.UI.Page
         sqlcon.Open();
         sda.Fill(ds);               //填充dataset
         sqlcon.Close();
-
+        Bind();
 
     }
 
@@ -711,12 +718,11 @@ public partial class Teacher : System.Web.UI.Page
         conn.Open();
         for (int i = 0; i < a; i++)
         {
-            cmd.CommandText = "INSERT INTO [Sheet1$] (学号,姓名,密码,曾用名,年级,生日,性别,民族,健康状况,婚姻状况,手机号码,银行卡号,开户行,电子邮箱,身份证号码,生源地,家庭住址,家庭电话,邮政编码,什么时候受过什么奖励,什么时候入的党团,受过什么处分,家庭主要成员和主要关系中有无重大问题，与本人关系如何,其他需要向组织说明的问题,记事) VALUES('" + ds.Tables[0].Rows[i][0].ToString() + "', '" + ds.Tables[0].Rows[i][1].ToString() + "', '" + ds.Tables[0].Rows[i][2].ToString() + "', '" + ds.Tables[0].Rows[i][3].ToString() + "', '" + ds.Tables[0].Rows[i][7].ToString() + "', '" + ds.Tables[0].Rows[i][8].ToString() + "', '" + ds.Tables[0].Rows[i][9].ToString() + "', '" + ds.Tables[0].Rows[i][10].ToString() + "', '" + ds.Tables[0].Rows[i][11].ToString() + "', '" + ds.Tables[0].Rows[i][12].ToString() + "', '" + ds.Tables[0].Rows[i][13].ToString() + "', '" + ds.Tables[0].Rows[i][14].ToString() + "', '" + ds.Tables[0].Rows[i][15].ToString() + "', '" + ds.Tables[0].Rows[i][16].ToString() + "', '" + ds.Tables[0].Rows[i][17].ToString() + "', '" + ds.Tables[0].Rows[i][18].ToString() + "', '" + ds.Tables[0].Rows[i][19].ToString() + "', '" + ds.Tables[0].Rows[i][20].ToString() + "', '" + ds.Tables[0].Rows[i][21].ToString() + "', '" + ds.Tables[0].Rows[i][22].ToString() + "', '" + ds.Tables[0].Rows[i][23].ToString() + "', '" + ds.Tables[0].Rows[i][24].ToString() + "', '" + ds.Tables[0].Rows[i][25].ToString() + "', '" + ds.Tables[0].Rows[i][26].ToString() + "', '" + ds.Tables[0].Rows[i][27].ToString() + "')";
+            cmd.CommandText = "INSERT INTO [Sheet1$] (学号,姓名,密码,学院,系,班级,曾用名,年级,生日,性别,民族,健康状况,婚姻状况,手机号码,银行卡号,开户行,电子邮箱,身份证号码,生源地,家庭住址,家庭电话,邮政编码,什么时候受过什么奖励,什么时候入的党团,受过什么处分,家庭主要成员和主要关系中有无重大问题，与本人关系如何,其他需要向组织说明的问题,记事) VALUES('" + ds.Tables[0].Rows[i][0].ToString() + "', '" + ds.Tables[0].Rows[i][1].ToString() + "', '" + ds.Tables[0].Rows[i][2].ToString() + "','" + ds.Tables[1].Rows[i][0].ToString() + "','" + ds.Tables[1].Rows[i][1].ToString() + "','" + ds.Tables[1].Rows[i][2].ToString() + "','" + ds.Tables[0].Rows[i][3].ToString() + "', '" + ds.Tables[0].Rows[i][7].ToString() + "', '" + ds.Tables[0].Rows[i][8].ToString() + "', '" + ds.Tables[0].Rows[i][9].ToString() + "', '" + ds.Tables[0].Rows[i][10].ToString() + "', '" + ds.Tables[0].Rows[i][11].ToString() + "', '" + ds.Tables[0].Rows[i][12].ToString() + "', '" + ds.Tables[0].Rows[i][13].ToString() + "', '" + ds.Tables[0].Rows[i][14].ToString() + "', '" + ds.Tables[0].Rows[i][15].ToString() + "', '" + ds.Tables[0].Rows[i][16].ToString() + "', '" + ds.Tables[0].Rows[i][17].ToString() + "', '" + ds.Tables[0].Rows[i][18].ToString() + "', '" + ds.Tables[0].Rows[i][19].ToString() + "', '" + ds.Tables[0].Rows[i][20].ToString() + "', '" + ds.Tables[0].Rows[i][21].ToString() + "', '" + ds.Tables[0].Rows[i][22].ToString() + "', '" + ds.Tables[0].Rows[i][23].ToString() + "', '" + ds.Tables[0].Rows[i][24].ToString() + "', '" + ds.Tables[0].Rows[i][25].ToString() + "', '" + ds.Tables[0].Rows[i][26].ToString() + "', '" + ds.Tables[0].Rows[i][27].ToString() + "');";
 
             cmd.ExecuteNonQuery();
-            cmd.CommandText = " INSERT INTO [Sheet1$] (学院,系,班级) VALUES('" + ds.Tables[1].Rows[i][0].ToString() + "','" + ds.Tables[1].Rows[i][1].ToString() + "','" + ds.Tables[1].Rows[i][2].ToString() + "')";
-            cmd.ExecuteNonQuery();
-            //cmd.CommandText = "INSERT INTO stuInfo (学号,姓名,学院,系,班级,曾用名,生日,民族,政治面貌,健康状况,婚姻状况,电话号码,手机号码,电子邮箱,身份证号,生源地,家庭住址,家庭电话,邮政编码,备注,什么时候受过什么奖励,什么时候入的党团,受过什么处分,家庭主要成员和主要关系中有无重大问题与本人关系如何,其他需要向组织说明的问题, 记事) VALUES('" + ds.Tables[0].Rows[i][0].ToString() + "', '" + ds.Tables[0].Rows[i][1].ToString() + "', '" + ds.Tables[0].Rows[i][2].ToString() + "', '" + ds.Tables[0].Rows[i][3].ToString() + "', '" + ds.Tables[0].Rows[i][4].ToString() + "', '" + ds.Tables[0].Rows[i][5].ToString() + "', '" + ds.Tables[0].Rows[i][6].ToString() + "', '" + ds.Tables[0].Rows[i][7].ToString() + "', '" + ds.Tables[0].Rows[i][8].ToString() + "', '" + ds.Tables[0].Rows[i][9].ToString() + "', '" + ds.Tables[0].Rows[i][10].ToString() + "', '" + ds.Tables[0].Rows[i][11].ToString() + "', '" + ds.Tables[0].Rows[i][12].ToString() + "', '" + ds.Tables[0].Rows[i][13].ToString() + "', '" + ds.Tables[0].Rows[i][14].ToString() + "', '" + ds.Tables[0].Rows[i][15].ToString() + "', '" + ds.Tables[0].Rows[i][16].ToString() + "', '" + ds.Tables[0].Rows[i][17].ToString() + "', '" + ds.Tables[0].Rows[i][18].ToString() + "', '" + ds.Tables[0].Rows[i][19].ToString() + "', '" + ds.Tables[0].Rows[i][20].ToString() + "', '" + ds.Tables[0].Rows[i][21].ToString() + "', '" + ds.Tables[0].Rows[i][22].ToString() + "', '" + ds.Tables[0].Rows[i][23].ToString() + "', '" + ds.Tables[0].Rows[i][24].ToString() + "')";
+           
+            
         }
         conn.Close();
     }

@@ -211,7 +211,7 @@ public partial class College : System.Web.UI.Page
                 conn.Close();
 
                 string xyid = dt2.Rows[0]["College_ID"].ToString();
-                Response.Write(@"<script>alert('"+xyid+"');</script>");
+               
                 string sqlStr = "INSERT INTO Xi(College_ID,XM,Xi_id) VALUES('" + xyid + "','" + nm + "','" + id + "')";
       
                 SqlDataAdapter da3 = new SqlDataAdapter(sqlStr, conn);
@@ -298,7 +298,7 @@ public partial class College : System.Web.UI.Page
     protected void restart_ServerClick(object sender, EventArgs e)
     {
         xiid.Value = "";
-        Response.AddHeader("Refresh", "0");
+        bind();
     }
 
     //gridview 部分

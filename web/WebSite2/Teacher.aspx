@@ -60,11 +60,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="College.aspx"><span class="hidden-tablet">系管理</span></a></li>	
-						<li><a href="College1.aspx"><span class="hidden-tablet">系主任/辅导员 管理</span></a></li>
-						<li><a href="College2.aspx"><span class="hidden-tablet"> 班级管理</span></a></li>
-						<li><a href="College3.aspx"><span class="hidden-tablet">班主任管理</span></a></li>
-						<li><a href="College4.aspx"><span class="hidden-tablet">学生管理</span></a></li>
+						<li><a href="Teacher.aspx"><span class="hidden-tablet">学生管理</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -74,7 +70,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">菜单</a> 
+					<a href="Teacher.aspx">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="College4">学生信息管理</a></li>
@@ -132,7 +128,7 @@
                 <a style="font-weight: 600;">查询学生信息：</a>
                  </ContentTemplate>
                     </asp:UpdatePanel>
-				    <p style="font-weight: 600">学号：<input id="xuehao" type="text" runat="server" >
+				    <p style="font-weight: 600">学号：<input id="xuehao" type="text" runat="server" />
 				    </p>
                     <p style="font-weight: 600">
 				    <input type="submit" value="查询" style="width: 180px;height: 30px" id="chaxun" runat="server" onserverclick="chaxun_ServerClick">
@@ -164,7 +160,7 @@
                     <asp:BoundField DataField="ID" HeaderText="学号" ReadOnly="True"/>    
                     <asp:BoundField DataField="Name" HeaderText="姓名" DataFormatString="{0:000#}" /> 
                     <asp:BoundField DataField="password" HeaderText="密码" DataFormatString="{0:000#}" /> 
-                    <asp:BoundField DataField="password" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
+                    <asp:BoundField DataField="CLM" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
                     <asp:TemplateField>
                         <HeaderTemplate>
                            查看学生信息

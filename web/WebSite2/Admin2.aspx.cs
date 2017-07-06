@@ -18,7 +18,7 @@ public partial class Admin2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             hidden();
-
+            selectbind2();
             listbind();
          
             this.selectbj.Items.Insert(0, new ListItem("请选择班级", "0"));
@@ -49,7 +49,7 @@ public partial class Admin2 : System.Web.UI.Page
                 FileOperatpr(fileName, savePath);                      // FileOperatpr类，用于文件操作
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
-
+                Response.Redirect("Admin2.aspx");
 
             }
         }
@@ -258,7 +258,7 @@ public partial class Admin2 : System.Web.UI.Page
                 string cid = dt2.Rows[0]["Class_ID"].ToString();
 
                 string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
-                SqlDataAdapter da3 = new SqlDataAdapter(selectStr, conn);
+                SqlDataAdapter da3 = new SqlDataAdapter(instr, conn);
                 DataTable dt3 = new DataTable();
                 conn.Open();                                                             //打开数据库
                 da3.Fill(dt3);                                                            //将数据填充到DataTable（dt）
@@ -266,8 +266,8 @@ public partial class Admin2 : System.Web.UI.Page
 
 
                 Response.Write(@"<script>alert('上传成功！');</script>");
-                Response.AddHeader("Refresh", "0");
-                //  bind();
+                Response.Redirect("Admin2.aspx");
+                bind();
             }
         }
 
@@ -410,6 +410,50 @@ public partial class Admin2 : System.Web.UI.Page
 
     //GridView部分
 
+
+    public void bind()
+    {
+        string cl = selectbj.SelectedItem.Text;
+        string nj = selectnj.SelectedItem.Text;
+        string id = xuehao.Value;
+
+        if (id != "")
+        {
+            // 查询id
+            string sqlStr = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE si.ID='" + id + "'  AND banji.Class_ID=si.classid";
+            SqlConnection sqlcon = new SqlConnection(connStr);
+            SqlDataAdapter da = new SqlDataAdapter(sqlStr, sqlcon);
+            DataSet ds = new DataSet();
+            sqlcon.Open();
+            da.Fill(ds);
+            GridView1.DataSource = ds;                                     //设定gridview的datasourse
+            GridView1.DataKeyNames = new string[] { "ID" };//主键
+            GridView1.DataBind();
+            sqlcon.Close();
+            show();
+        }
+        else if (cl != "请选择班级")
+        {
+            //查询班级
+            string sqlStr1 = "SELECT ID,Name,password,banji.CLM FROM si,banji WHERE banji.Class_ID=si.classid AND nianji='" + nj + "' AND classid=(SELECT Class_ID FROM banji WHERE CLM='" + cl + "' AND grade='" + nj + "')";
+            SqlConnection sqlcon = new SqlConnection(connStr);
+            SqlDataAdapter da1 = new SqlDataAdapter(sqlStr1, sqlcon);
+            DataSet ds1 = new DataSet();
+            sqlcon.Open();
+            da1.Fill(ds1);
+            GridView1.DataSource = ds1;                                     //设定gridview的datasourse
+            GridView1.DataKeyNames = new string[] { "ID" };//主键
+            GridView1.DataBind();
+            sqlcon.Close();
+            show();
+        }
+        else
+        {
+            //提示错误
+            Response.Write(@"<script>alert('请正确选择或填写查询信息！');</script>");
+        }
+    }
+
     /// <summary>
     /// 全选gridveiw
     /// </summary>
@@ -503,7 +547,7 @@ public partial class Admin2 : System.Web.UI.Page
     protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
     {
         GridView1.EditIndex = e.NewEditIndex;
-
+        bind();
     }
 
 
@@ -525,6 +569,7 @@ public partial class Admin2 : System.Web.UI.Page
         sda.Fill(ds);                   //填充dataset
         sqlcon.Close();
         GridView1.EditIndex = -1;      // EditIndex属性 要编辑的行从0开始 预设值为-1
+        bind();
 
 
 
@@ -538,6 +583,7 @@ public partial class Admin2 : System.Web.UI.Page
     protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         GridView1.EditIndex = -1;          //要编辑的行从0开始
+        bind();
 
     }
 
@@ -555,6 +601,7 @@ public partial class Admin2 : System.Web.UI.Page
         sqlcon.Open();
         sda.Fill(ds);               //填充dataset
         sqlcon.Close();
+        bind();
 
 
     }

@@ -29,7 +29,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端)</h2></span></a>
+				<a class="brand" href="College.aspx"><span><h2>云南民族大学学籍管理系统(学院端) 系管理 </h2></span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -73,7 +73,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">菜单</a> 
+					<a href="College.aspx">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="College.aspx">系管理</a></li>

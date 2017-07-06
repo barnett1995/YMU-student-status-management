@@ -17,7 +17,7 @@ public partial class College1 : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            listbind();
+            listbind2();
             bind();
         }
     }
@@ -44,6 +44,7 @@ public partial class College1 : System.Web.UI.Page
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
                 bind();
+                Response.Redirect("College1.aspx");
 
             }
         }
@@ -174,15 +175,17 @@ public partial class College1 : System.Web.UI.Page
     /// <param name="e"></param>
     protected void add_ServerClick(object sender, EventArgs e)
     {
+        Application.Lock();
+        string TID = Application["ID"].ToString();
+        Application.UnLock();
         string id = upid.Value;
         string nm = upname.Value;
-        string pwd = uppwd.Value;
-        string xy = xylist.SelectedItem.Text;      
+        string pwd = uppwd.Value;   
         string xi = xilist.SelectedItem.Text;
         
 
 
-        string sestr = "SELECT * FROM Teacher WHERE ID='" + id + "' AND TeacheName='" + nm + "' AND Password='" + pwd + "' AND College_ID=(SELECT College_ID FROM College WHERE CLM='" + xy + "') AND xi_id=(SELECT Xi_id FROM Xi WHERE Xi_id='"+xi+"')";
+        string sestr = "SELECT * FROM Teacher WHERE ID='" + id + "' AND TeacheName='" + nm + "' AND Password='" + pwd + "'  AND xi_id=(SELECT Xi_id FROM Xi WHERE Xi_id='"+xi+"')";
 
         if (id == "" || nm == "" || pwd=="")
         {
@@ -206,9 +209,7 @@ public partial class College1 : System.Web.UI.Page
             }
             else
             {
-                string selectStr = "SELECT College.College_ID,Xi.Xi_id FROM College,Xi WHERE College.CM='" + xy + "' AND Xi.XM='"+xi+"'";
-               
-
+                string selectStr = "SELECT College.College_ID,Xi.Xi_id FROM College,Xi WHERE Xi.XM='"+xi+"' AND College.College_ID=(SELECT College_ID FROM Teacher WHERE ID='"+TID+"')";
 
                 SqlDataAdapter da2 = new SqlDataAdapter(selectStr, conn);
                 DataTable dt2 = new DataTable();
@@ -229,47 +230,26 @@ public partial class College1 : System.Web.UI.Page
 
                 Response.Write(@"<script>alert('上传成功！');</script>");
                 bind();
+                Response.Redirect("College1.aspx");
+
             }
         }
 
     }
 
-    /// <summary>
-    /// 学院下拉列表事件
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void xylist_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string xl = xylist.SelectedItem.Text;
-        listbind2(xl);
-        this.xilist.Items.Insert(0, new ListItem("请选择系", "0"));
-    }
 
-    /// <summary>
-    /// 学院dropdownlist 的DataSource 
-    /// </summary>
-    public void listbind()
-    {
-        string sqlstr = "select CM FROM College";
-        SqlConnection sqlcon = new SqlConnection(connStr);
-        SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
-        DataSet ds = new DataSet();
-        sqlcon.Open();
-        da.Fill(ds);
-        sqlcon.Close();
-        xylist.DataSource = ds;
-        xylist.DataTextField = "CM";
-        xylist.DataBind();
-    }
+
 
     /// <summary>
     /// 系dropdownlist 的DataSource
     /// </summary>
     /// <param name="c"></param>
-    public void listbind2(string c)
+    public void listbind2()
     {
-        string sqlstr = "SELECT XM FROM Xi WHERE College_ID=(SELECT              ' )";
+        Application.Lock();
+        string ID = Application["ID"].ToString();
+        Application.UnLock();
+        string sqlstr = "SELECT XM FROM Xi WHERE College_ID=(SELECT College_ID FROM Teacher WHERE ID='"+ID+"' )";
 
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
@@ -435,6 +415,7 @@ public partial class College1 : System.Web.UI.Page
     protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
     {
         GridView1.EditIndex = e.NewEditIndex;
+        bind();
 
     }
 
@@ -481,7 +462,7 @@ public partial class College1 : System.Web.UI.Page
     /// <param name="e"></param>
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        string delstr = "DELETE FROM banji WHERE Class_ID= '" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
+        string delstr = "DELETE FROM Teacher WHERE ID= '" + GridView1.DataKeys[e.RowIndex].Value.ToString() + "'";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter sda = new SqlDataAdapter(delstr, sqlcon);
         DataSet ds = new DataSet();
@@ -489,6 +470,7 @@ public partial class College1 : System.Web.UI.Page
         sda.Fill(ds);               //填充dataset
         sqlcon.Close();
         bind();
+      
 
 
     }

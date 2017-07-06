@@ -44,7 +44,7 @@ public partial class Admin0 : System.Web.UI.Page
                 FileUpload1.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                 DataOperator(fileName, savePath);                      // DataOperator类，用于数据操作
                 bind();
-                Response.Redirect("College2.aspx");
+                Response.Redirect("Admin0.aspx");
 
             }
         }
@@ -178,7 +178,7 @@ public partial class Admin0 : System.Web.UI.Page
         string nj = nianjilist.SelectedItem.Text;
 
 
-        string sestr = "SELECT * FROM banji WHERE ID='" + id + "' AND TeacheName='" + nm + "' AND  grade='" + nj + "'";
+        string sestr = "SELECT * FROM banji WHERE Class_ID='" + id + "' AND CLM='" + nm + "' AND  grade='" + nj + "'";
 
         if (id == "" || nm == "")
         {
@@ -227,6 +227,7 @@ public partial class Admin0 : System.Web.UI.Page
                 Response.Write(@"<script>alert('上传成功！');</script>");
     
                 bind();
+                Response.Redirect("Admin0.aspx");
             }
         }
 

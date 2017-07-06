@@ -28,7 +28,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端)</h2></span></a>
+				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端) 班级管理</h2></span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -73,10 +73,10 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">菜单</a> 
+					<a href="College2.aspx">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">班级管理</a></li>
+				<li><a href="College2.aspx">班级管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
 				 <p style="font-weight: 600">
@@ -97,6 +97,7 @@
                     </p>
                     <p style="font-weight: 600">选择年级：
                     <asp:DropDownList ID="nianjilist" runat="server" Width="206px" >
+                                       
                                         <asp:ListItem>2014级</asp:ListItem>
                                         <asp:ListItem>2015级</asp:ListItem>
                                         <asp:ListItem>2016级</asp:ListItem>
@@ -128,6 +129,7 @@
 				</p>
                 <p style="font-weight: 600">选择年级：
                 <asp:DropDownList ID="selectnj" runat="server" Width="206px">
+                     <asp:ListItem>全部年级</asp:ListItem>
                     <asp:ListItem>2014级</asp:ListItem>
                     <asp:ListItem>2015级</asp:ListItem>
                     <asp:ListItem>2016级</asp:ListItem>

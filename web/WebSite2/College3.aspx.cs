@@ -116,7 +116,7 @@ public partial class College3 : System.Web.UI.Page
             //int a = Convert.ToInt32(k)
             Response.Write(@"<script>alert('上传成功" + k + " 条');</script>");
             //File.Delete(filePath);                                          //上传完成删除文件
-            // bind();
+            bind();
 
         }
     }

@@ -28,7 +28,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端)</h2></span></a>
+				<a class="brand" href="index.html"><span><h2>云南民族大学学籍管理系统(学院端) 学生管理 </h2></span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -73,10 +73,10 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">菜单</a> 
+					<a href="College4.aspx">菜单</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="College4">学生信息管理</a></li>
+				<li><a href="College4.aspx">学生信息管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
 				 
@@ -85,7 +85,7 @@
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                  </p>
                  <p style="font-weight: 600">
-                 <input id="up" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click">
+                 <input id="up" Value="上传" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click" />
                  </p>
 				
                         <a style="font-weight: 600;">单条添加学生信息：</a>
@@ -180,7 +180,7 @@
                     <asp:BoundField DataField="ID" HeaderText="学号" ReadOnly="True"/>    
                     <asp:BoundField DataField="Name" HeaderText="姓名" DataFormatString="{0:000#}" /> 
                     <asp:BoundField DataField="password" HeaderText="密码" DataFormatString="{0:000#}" /> 
-                    <asp:BoundField DataField="password" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
+                    <asp:BoundField DataField="CLM" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
                     <asp:TemplateField>
                         <HeaderTemplate>
                            查看学生信息

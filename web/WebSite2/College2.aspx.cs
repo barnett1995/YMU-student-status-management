@@ -17,6 +17,7 @@ public partial class application3 : System.Web.UI.Page
         if (!IsPostBack)
         {
             this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
+         
             listbind();
             selectbind();
             bind();
@@ -180,7 +181,7 @@ public partial class application3 : System.Web.UI.Page
         string nj = nianjilist.SelectedItem.Text;
 
 
-        string sestr = "SELECT * FROM banji WHERE ID='" + id + "' AND TeacheName='" + nm + "' AND  grade='" + nj + "'";
+        string sestr = "SELECT * FROM banji WHERE Class_ID='" + id + "' AND CLM='" + nm + "' AND  grade='" + nj + "'";
 
         if (id == "" || nm == "")
         {
@@ -224,8 +225,9 @@ public partial class application3 : System.Web.UI.Page
 
 
                 Response.Write(@"<script>alert('上传成功！');</script>");
-                Response.AddHeader("Refresh", "0");
-                //  bind();
+         
+                bind();
+                Response.Redirect("College2.aspx");
             }
         }
 
@@ -270,16 +272,23 @@ public partial class application3 : System.Web.UI.Page
         {
             // 查询id
             string sqlStr = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Class_ID='" + id + "' AND grade='" + nj + "'";
-          
+
             searchBind(sqlStr);
             show();
         }
-        else if (xi != "请选择系")
+        else if (xi != "请选择系"|| nj == "全部年级")
         {
             //查询系
-            string sqlStr1 = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Xi.XM='"+xi+"' AND banji.xi_id=Xi.Xi_id";
+            string sqlStr1 = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Xi.XM='" + xi + "' AND banji.xi_id=Xi.Xi_id";
             searchBind(sqlStr1);
             show();
+        }
+        else if (nj != "全部年级" && xi != "请选择系")
+        {
+            //查询系里某一年级
+            string sqlStr2 = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Xi.XM='" + xi + "' AND banji.xi_id=Xi.Xi_id AND banji.grade='"+nj+"'";
+            searchBind(sqlStr2);
+            bind();
         }
         else if (xi == "请选择系" && id == "")
         {
@@ -299,6 +308,7 @@ public partial class application3 : System.Web.UI.Page
         this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
         selectbind();
         xuehao.Value = "";
+
     }
 
 
