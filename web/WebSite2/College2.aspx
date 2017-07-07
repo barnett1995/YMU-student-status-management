@@ -80,14 +80,14 @@
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
 				 <p style="font-weight: 600">
-				<a style="font-weight: 300;">班级信息Excel上传：</a>
+				<h2 style="font-weight: 300;">班级信息Excel上传：</h2>
                  <p>
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                  <p style="font-weight: 600">
                  <input id="up" style="width: 180px;height: 30px" value="上传" type="submit" runat="server" onserverclick="shangchuan_Click">
                  </p>
 				
-                  <a style="font-weight: 600;">单条添加班级信息：</a>
+                  <h2 style="font-weight: 600;">单条添加班级信息：</h2>
                 <p style="font-weight: 600">班级ID：<input id="upid" type="text" runat="server"></p>
 				<p style="font-weight: 600">班级名：<input id="upname" type="text" runat="server"></p>
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -121,7 +121,7 @@
               <ContentTemplate>
                 
            
-                <a style="font-weight: 600;">查询班级信息：</a>      
+                <h2 style="font-weight: 600;">查询班级信息：</h2>      
                 <p style="font-weight: 600">选择系：
                 <asp:DropDownList ID="selectxi" runat="server"  Width="206px"></asp:DropDownList>
                 </p>

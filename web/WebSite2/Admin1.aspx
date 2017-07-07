@@ -79,7 +79,7 @@
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
 				<p style="font-weight: 600">
-				<a style="font-weight: 300;">班主任信息Excel上传：</a>
+				<h2 style="font-weight: 300;">班主任信息Excel上传：</h2>
                  </p>
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                  <p style="font-weight: 600">
@@ -101,7 +101,7 @@
                     &nbsp; 
                 
            
-                <a style="font-weight: 600;">查询班主任信息：</a>      
+                <h2 style="font-weight: 600;">查询班主任信息：</h2>      
 				    <p style="font-weight: 600">工号：<input id="xuehao" type="text" runat="server" />
 				    </p>
                     <p style="font-weight: 600">

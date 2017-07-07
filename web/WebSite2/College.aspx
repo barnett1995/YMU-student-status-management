@@ -79,14 +79,14 @@
 				<li><a href="College.aspx">系管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
-				<a style="font-weight: 300;">系信息Excel上传：</a>
+				<h2 style="font-weight: 300;">系信息Excel上传：</h2>
                 <p style="font-weight: 600">
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                 </p>
                  <p style="font-weight: 600">
                  <input id="up" Value="上传" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click" />
 				 </p>
-                 <a style="font-weight: 600;">单条添加系信息：</a>   
+                 <h2 style="font-weight: 600;">单条添加系信息：</h2>   
                  <p style="font-weight: 600">所属学院：
                  <asp:DropDownList ID="xylist" runat="server" Width="206px" AutoPostBack="True" ></asp:DropDownList>
                  </p>
@@ -95,7 +95,7 @@
                 <p style="font-weight: 300">
                 <input id="add" type="submit" value="保存" style="width: 180px;height: 30px" runat="server" onserverClick="add_ServerClick" />
                 </p>  
-
+                <h2 style="font-weight: 600;">系信息查询：</h2>
                  <p style="font-weight: 600">系ID：<input id="xiid" type="text" runat="server" />
 				    </p>
                     <p style="font-weight: 600">

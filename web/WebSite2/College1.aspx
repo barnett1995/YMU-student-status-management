@@ -80,14 +80,14 @@
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
 				<p style="font-weight: 600">
-				<a style="font-weight: 300;">系主任&辅导员信息Excel上传：</a>
+				<h2 style="font-weight: 300;">系主任&辅导员信息Excel上传：</h2>
                  </p>
 				 <asp:FileUpload ID="FileUpload1" runat="server" />
                  <p style="font-weight: 600">
                  <input id="up" value="上传" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click">
                  </p>
 				
-                 <a style="font-weight: 600;">单条添加系主任&辅导员：</a>
+                 <h2 style="font-weight: 600;">单条添加系主任&辅导员：</h2>
                 <p style="font-weight: 600">工号：<input id="upid" type="text" runat="server"></p>
 				<p style="font-weight: 600">姓名：<input id="upname" type="text" runat="server"></p>
 				<p style="font-weight: 600">密码：<input id="uppwd" type="text" runat="server"></p>
@@ -107,7 +107,7 @@
                     &nbsp; 
                 
            
-                <a style="font-weight: 600;">查询系主任&辅导员信息：</a>      
+                <h2 style="font-weight: 600;">查询系主任&辅导员信息：</h2>      
                
 				    <p style="font-weight: 600">工号：<input id="xuehao" type="text" runat="server" >
 				    </p>
