@@ -43,8 +43,8 @@ public partial class login : System.Web.UI.Page
             }
             else
             {
-                string url = "Stuinfo.aspx?id=" + id.Text;
-                Response.Redirect(url);                                      //页面跳转
+                Application["ID"] = id.Text;
+                Response.Redirect("Stuinfo.aspx");                                      //页面跳转
             }
         }
 

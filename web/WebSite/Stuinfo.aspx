@@ -55,14 +55,14 @@
 <label for="mypicture">标准正规照</label>
 <img id="preview" runat="server"/>
 <br/>
-<input type="file" id="mypicture" name="mypicture" onchange="imgPreview(this)" runat="server"  />
+<asp:FileUpload ID="mypicture" name="mypicture" onchange="imgPreview(this)" runat="server" />
 <label for="firstname">你的名字</label>
 <input type="text" id="firstname" name="firstname" placeholder="你的身份证姓名..." runat="server"  required>
 <label for="lastname">你的曾用名</label>
 <input type="text" id="lastname" name="lastname" placeholder="你的曾用名..." required runat="server"  >
 
    </body>
-        <label for="nationality">所属民族</label>
+ <label for="nationality">所属民族</label>
 <input type="text" id="nationality" name="nationality" placeholder="你的民族..." required runat="server">
 <label for="group">政治面貌</label>
 <input type="text" id="group" name="group" placeholder="共产党员、团员、各民主党人士..." required runat="server">

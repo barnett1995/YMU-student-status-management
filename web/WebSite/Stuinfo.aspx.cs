@@ -25,7 +25,9 @@ public partial class t : System.Web.UI.Page
     /// </summary>
     public void show()
     {
-        string id = Request.QueryString["id"];
+        Application.Lock();
+        string id = Application["ID"].ToString();
+        Application.UnLock();
         string photoStr= "SELECT Photo FROM si WHERE ID='" + id + "'";
         string selectStr = "SELECT * FROM si WHERE ID='" + id + "'";                //查询学生信息表
         string selectStr1 = "SELECT * FROM Relation WHERE ID='" + id + "'";          //查看社会关系表
@@ -242,7 +244,9 @@ public partial class t : System.Web.UI.Page
 
     protected void ButtonClick(object sender, EventArgs e)
     {
-        string id = Request.QueryString["id"];                  //获取url传参参数
+        Application.Lock();
+        string id = Application["ID"].ToString();
+        Application.UnLock();                          //获取url传参参数
 
         String name = firstname.Value;                          //姓名
         String lname = lastname.Value;                          //曾用名
@@ -370,10 +374,7 @@ public partial class t : System.Web.UI.Page
         String ff6 = friend66.Value;
 
 
-        string fileName = mypicture.PostedFile.FileName;                     //获得上传文件的文件名
-        int position = fileName.LastIndexOf("\\");                  //截取.的位置
-        string splitName = fileName.Substring(position + 1);       //截取后缀
-        string newPath = CheckFileName(splitName);                 //判断后缀名是否合法并赋予新的文件名
+       
 
      
         string sortStr = "SELECT sort FROM Relation WHERE ID='" + id + "'";
@@ -396,7 +397,15 @@ public partial class t : System.Web.UI.Page
                     //获得Relation Experience marriage 三个表中对应各个ID的sort,然后循环控制，生成update语句，用于Relation Experience marriage三个表的更新                            
 
 
-         if (preview.Src!="" && mypicture.Accept=="")
+
+
+
+
+
+
+
+        
+         if (!mypicture.HasFiles)
          {
                   
              string updateStr = "UPDATE si SET Name='" + name + "',OnceName='" + lname + "',Marriage='" + hunyin + "',Nationality='" + minzu + "',Political='" + zhengzhi + "',Body='" + jiankang + "',Sex='" + xingbie + "',Birthday='" + shenri + "',E_Mail='" + youxiang + "',MobileNo手机号码='" + shouji + "', JTDH='" + jiazhang + "',SYD='" + chushengdi + "',CardID='" + shenfengzheng + "',JTZZ='" + huji + "',JZBM='" + youzheng + "',JoinTssue='" + rudang + "',Reward='" + jiangli + "',punishment='" + chengfa + "',BigEvents='" + wenti + "',OtherProblem='" + zuzhi + "',Remember='" + jishi + "',Bank='" + yinhang + "',Bankcard='" + kahao + "' WHERE ID='" + id + "'";            //更新si表
@@ -435,59 +444,71 @@ public partial class t : System.Web.UI.Page
                         upda3.Fill(upds3);
                         conn.Close();
                         Response.Write(@"<script>alert('信息上传成功！');</script>");
-                        Response.AddHeader("Refresh", "0");                   //页面刷新
+                        Response.AddHeader("Refresh", "0");
+
         }
-                  else
+              else if(mypicture.HasFiles)
                   {
+                        string fileName = mypicture.PostedFile.FileName;                     //获得上传文件的文件名
+                        int position = fileName.LastIndexOf("\\");                  //截取.的位置
+                        string splitName = fileName.Substring(position + 1);       //截取后缀
+                        string newPath = CheckFileName(splitName);                 //判断后缀名是否合法并赋予新的文件名
                         string savePath = Server.MapPath("picture/");            //Server.MapPath方法返回与指定虚拟路径相对应的物理路径。                             
                         mypicture.PostedFile.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                         string wpath = "picture\\" + newPath;
-                        // string photoupStr = "UPDATE si SET Photo='" + wpath + "' WHERE ID='" + id + "'";
+                       // string photoupStr = "UPDATE si SET Photo='" + wpath + "' WHERE ID='" + id + "'";
+                      
                         if (mypicture.PostedFile.ContentLength > 102400)
                         {
                             Response.Write(@"<script>alert('图片不能大于100k');</script>");
+
                         }
-
-                        if (!String.IsNullOrEmpty(newPath))                        //指示指定的字符串是 null 还是 Empty 字符串。
+                        else
                         {
-                            string updateStr = "UPDATE si SET Name='" + name + "',OnceName='" + lname + "',Marriage='" + hunyin + "',Nationality='" + minzu + "',Political='" + zhengzhi + "',Body='" + jiankang + "',Sex='" + xingbie + "',Birthday='" + shenri + "',E_Mail='" + youxiang + "',MobileNo手机号码='" + shouji + "', JTDH='" + jiazhang + "',SYD='" + chushengdi + "',CardID='" + shenfengzheng + "',JTZZ='" + huji + "',JZBM='" + youzheng + "',JoinTssue='" + rudang + "',Reward='" + jiangli + "',punishment='" + chengfa + "',BigEvents='" + wenti + "',OtherProblem='" + zuzhi + "',Remember='" + jishi + "',Bank='" + yinhang + "',Bankcard='" + kahao + "',Photo='" + wpath + "' WHERE ID='" + id + "'";            //更新si表
+                            if (!String.IsNullOrEmpty(newPath))                        //指示指定的字符串是 null 还是 Empty 字符串。
+                            {
+                                string updateStr = "UPDATE si SET Name='" + name + "',OnceName='" + lname + "',Marriage='" + hunyin + "',Nationality='" + minzu + "',Political='" + zhengzhi + "',Body='" + jiankang + "',Sex='" + xingbie + "',Birthday='" + shenri + "',E_Mail='" + youxiang + "',MobileNo手机号码='" + shouji + "', JTDH='" + jiazhang + "',SYD='" + chushengdi + "',CardID='" + shenfengzheng + "',JTZZ='" + huji + "',JZBM='" + youzheng + "',JoinTssue='" + rudang + "',Reward='" + jiangli + "',punishment='" + chengfa + "',BigEvents='" + wenti + "',OtherProblem='" + zuzhi + "',Remember='" + jishi + "',Bank='" + yinhang + "',Bankcard='" + kahao + "',Photo='" + wpath + "' WHERE ID='" + id + "'";            //更新si表
 
-                            /*
-                             社会关系表 Relation
-                             社会关系表（f） 姓名(a) 与本人关系(b) 政治面貌(c) 工作单位d 职务(e) 联系电话(f) 数字表示行数
+                                /*
+                                 社会关系表 Relation
+                                 社会关系表（f） 姓名(a) 与本人关系(b) 政治面貌(c) 工作单位d 职务(e) 联系电话(f) 数字表示行数
 
-                            */
-                            string updateStr1 = "UPDATE Relation SET Name='" + fa1 + "',Relation='" + fb1 + "',PoliticalFace='" + fc1 + "',Company='" + fd1 + "',Work='" + fe1 + "',phone='" + ff1 + "' WHERE sort='" + sortdt.Rows[0]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa2 + "',Relation='" + fb2 + "',PoliticalFace='" + fc2 + "',Company='" + fd2 + "',Work='" + fe2 + "',phone='" + ff2 + "' WHERE sort='" + sortdt.Rows[1]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa3 + "',Relation='" + fb3 + "',PoliticalFace='" + fc3 + "',Company='" + fd3 + "',Work='" + fe3 + "',phone='" + ff3 + "' WHERE sort='" + sortdt.Rows[2]["sort"].ToString() + "';UPDATE Relation SET Name='" + fa4 + "',Relation='" + fb4 + "',PoliticalFace='" + fc4 + "',Company='" + fd4 + "',Work='" + fe4 + "',phone='" + ff4 + "' WHERE sort='" + sortdt.Rows[3]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa5 + "',Relation='" + fb5 + "',PoliticalFace='" + fc5 + "',Company='" + fd5 + "',Work='" + fe5 + "',phone='" + ff5 + "' WHERE sort='" + sortdt.Rows[4]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa6 + "',Relation='" + fb6 + "',PoliticalFace='" + fc6 + "',Company='" + fd6 + "',Work='" + fe6 + "',phone='" + ff6 + "' WHERE sort='" + sortdt.Rows[5]["sort"].ToString() + "'";
+                                */
+                                string updateStr1 = "UPDATE Relation SET Name='" + fa1 + "',Relation='" + fb1 + "',PoliticalFace='" + fc1 + "',Company='" + fd1 + "',Work='" + fe1 + "',phone='" + ff1 + "' WHERE sort='" + sortdt.Rows[0]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa2 + "',Relation='" + fb2 + "',PoliticalFace='" + fc2 + "',Company='" + fd2 + "',Work='" + fe2 + "',phone='" + ff2 + "' WHERE sort='" + sortdt.Rows[1]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa3 + "',Relation='" + fb3 + "',PoliticalFace='" + fc3 + "',Company='" + fd3 + "',Work='" + fe3 + "',phone='" + ff3 + "' WHERE sort='" + sortdt.Rows[2]["sort"].ToString() + "';UPDATE Relation SET Name='" + fa4 + "',Relation='" + fb4 + "',PoliticalFace='" + fc4 + "',Company='" + fd4 + "',Work='" + fe4 + "',phone='" + ff4 + "' WHERE sort='" + sortdt.Rows[3]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa5 + "',Relation='" + fb5 + "',PoliticalFace='" + fc5 + "',Company='" + fd5 + "',Work='" + fe5 + "',phone='" + ff5 + "' WHERE sort='" + sortdt.Rows[4]["sort"].ToString() + "'; UPDATE Relation SET Name='" + fa6 + "',Relation='" + fb6 + "',PoliticalFace='" + fc6 + "',Company='" + fd6 + "',Work='" + fe6 + "',phone='" + ff6 + "' WHERE sort='" + sortdt.Rows[5]["sort"].ToString() + "'";
 
-                            /*
-                            家庭关系表 marriage
-                            社会关系表（h） 姓名(a) 与本人关系(b) 政治面貌(c) 工作单位d 职务(e) 联系电话(f) 数字表示行数
-                            */
-                            string updateStr2 = "UPDATE marriage SET Name='" + ha1 + "',Relation='" + hb1 + "',PoliticalFace='" + hc1 + "',Company='" + hd1 + "',Work='" + he1 + "',phone='" + hf1 + "' WHERE sort='" + sortdt1.Rows[0]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha2 + "',Relation='" + hb2 + "',PoliticalFace='" + hc2 + "',Company='" + hd2 + "',Work='" + he2 + "',phone='" + hf2 + "' WHERE sort='" + sortdt1.Rows[1]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha3 + "',Relation='" + hb3 + "',PoliticalFace='" + hc3 + "',Company='" + hd3 + "',Work='" + he3 + "',phone='" + hf3 + "' WHERE sort='" + sortdt1.Rows[2]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha4 + "',Relation='" + hb4 + "',PoliticalFace='" + hc4 + "',Company='" + hd4 + "',Work='" + he4 + "',phone='" + hf4 + "' WHERE sort='" + sortdt1.Rows[3]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha5 + "',Relation='" + hb5 + "',PoliticalFace='" + hc5 + "',Company='" + hd5 + "',Work='" + he5 + "',phone='" + hf5 + "' WHERE sort='" + sortdt1.Rows[4]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha6 + "',Relation='" + hb6 + "',PoliticalFace='" + hc6 + "',Company='" + hd6 + "',Work='" + he6 + "',phone='" + hf6 + "' WHERE sort='" + sortdt1.Rows[5]["sort"].ToString() + "'";
+                                /*
+                                家庭关系表 marriage
+                                社会关系表（h） 姓名(a) 与本人关系(b) 政治面貌(c) 工作单位d 职务(e) 联系电话(f) 数字表示行数
+                                */
+                                string updateStr2 = "UPDATE marriage SET Name='" + ha1 + "',Relation='" + hb1 + "',PoliticalFace='" + hc1 + "',Company='" + hd1 + "',Work='" + he1 + "',phone='" + hf1 + "' WHERE sort='" + sortdt1.Rows[0]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha2 + "',Relation='" + hb2 + "',PoliticalFace='" + hc2 + "',Company='" + hd2 + "',Work='" + he2 + "',phone='" + hf2 + "' WHERE sort='" + sortdt1.Rows[1]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha3 + "',Relation='" + hb3 + "',PoliticalFace='" + hc3 + "',Company='" + hd3 + "',Work='" + he3 + "',phone='" + hf3 + "' WHERE sort='" + sortdt1.Rows[2]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha4 + "',Relation='" + hb4 + "',PoliticalFace='" + hc4 + "',Company='" + hd4 + "',Work='" + he4 + "',phone='" + hf4 + "' WHERE sort='" + sortdt1.Rows[3]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha5 + "',Relation='" + hb5 + "',PoliticalFace='" + hc5 + "',Company='" + hd5 + "',Work='" + he5 + "',phone='" + hf5 + "' WHERE sort='" + sortdt1.Rows[4]["sort"].ToString() + "';UPDATE marriage SET Name='" + ha6 + "',Relation='" + hb6 + "',PoliticalFace='" + hc6 + "',Company='" + hd6 + "',Work='" + he6 + "',phone='" + hf6 + "' WHERE sort='" + sortdt1.Rows[5]["sort"].ToString() + "'";
 
-                            /*
-                            社会经历表 Experience(s)  
-                            时间（a） 单位（b） 职务（c）
-                             */
-                            string updateStr3 = "UPDATE Experience SET time='" + sa1 + "',Attribution='" + sb1 + "',Position='" + sc1 + "' WHERE sort='" + sortdt1.Rows[0]["sort"].ToString() + "';UPDATE Experience SET time='" + sa2 + "',Attribution='" + sb2 + "',Position='" + sc2 + "' WHERE sort='" + sortdt1.Rows[1]["sort"].ToString() + "';UPDATE Experience SET time='" + sa3 + "',Attribution='" + sb3 + "',Position='" + sc3 + "' WHERE sort='" + sortdt1.Rows[2]["sort"].ToString() + "';UPDATE Experience SET time='" + sa4 + "',Attribution='" + sb4 + "',Position='" + sc4 + "' WHERE sort='" + sortdt1.Rows[3]["sort"].ToString() + "';UPDATE Experience SET time='" + sa5 + "',Attribution='" + sb5 + "',Position='" + sc5 + "' WHERE sort='" + sortdt1.Rows[4]["sort"].ToString() + "';UPDATE Experience SET time='" + sa6 + "',Attribution='" + sb6 + "',Position='" + sc6 + "' WHERE sort='" + sortdt1.Rows[5]["sort"].ToString() + "'";
+                                /*
+                                社会经历表 Experience(s)  
+                                时间（a） 单位（b） 职务（c）
+                                 */
+                                string updateStr3 = "UPDATE Experience SET time='" + sa1 + "',Attribution='" + sb1 + "',Position='" + sc1 + "' WHERE sort='" + sortdt1.Rows[0]["sort"].ToString() + "';UPDATE Experience SET time='" + sa2 + "',Attribution='" + sb2 + "',Position='" + sc2 + "' WHERE sort='" + sortdt1.Rows[1]["sort"].ToString() + "';UPDATE Experience SET time='" + sa3 + "',Attribution='" + sb3 + "',Position='" + sc3 + "' WHERE sort='" + sortdt1.Rows[2]["sort"].ToString() + "';UPDATE Experience SET time='" + sa4 + "',Attribution='" + sb4 + "',Position='" + sc4 + "' WHERE sort='" + sortdt1.Rows[3]["sort"].ToString() + "';UPDATE Experience SET time='" + sa5 + "',Attribution='" + sb5 + "',Position='" + sc5 + "' WHERE sort='" + sortdt1.Rows[4]["sort"].ToString() + "';UPDATE Experience SET time='" + sa6 + "',Attribution='" + sb6 + "',Position='" + sc6 + "' WHERE sort='" + sortdt1.Rows[5]["sort"].ToString() + "'";
 
-                            SqlDataAdapter upda = new SqlDataAdapter(updateStr, conn);
-                            SqlDataAdapter upda1 = new SqlDataAdapter(updateStr1, conn);
-                            SqlDataAdapter upda2 = new SqlDataAdapter(updateStr2, conn);
-                            SqlDataAdapter upda3 = new SqlDataAdapter(updateStr3, conn);
-                            DataSet upds = new DataSet();
-                            DataSet upds1 = new DataSet();
-                            DataSet upds2 = new DataSet();
-                            DataSet upds3 = new DataSet();
-                            conn.Open();                                                                          //打开数据库
-                            upda.Fill(upds);
-                            upda1.Fill(upds1);
-                            upda2.Fill(upds2);
-                            upda3.Fill(upds3);
-                            conn.Close();
-                            Response.Write(@"<script>alert('信息上传成功！');</script>");
-                            Response.AddHeader("Refresh", "0");           //页面刷新
-                      }
+                                SqlDataAdapter upda = new SqlDataAdapter(updateStr, conn);
+                                SqlDataAdapter upda1 = new SqlDataAdapter(updateStr1, conn);
+                                SqlDataAdapter upda2 = new SqlDataAdapter(updateStr2, conn);
+                                SqlDataAdapter upda3 = new SqlDataAdapter(updateStr3, conn);
+                                DataSet upds = new DataSet();
+                                DataSet upds1 = new DataSet();
+                                DataSet upds2 = new DataSet();
+                                DataSet upds3 = new DataSet();
+                                conn.Open();                                                                          //打开数据库
+                                upda.Fill(upds);
+                                upda1.Fill(upds1);
+                                upda2.Fill(upds2);
+                                upda3.Fill(upds3);
+                                conn.Close();
+                                Response.Write(@"<script>alert('信息上传成功！');</script>");
+                                Response.AddHeader("Refresh", "0");
+                }
+
+                        
+                            
+            }
 
                 
 
@@ -498,5 +519,6 @@ public partial class t : System.Web.UI.Page
 
         
 
-      }       
+      }     
+     
 }
