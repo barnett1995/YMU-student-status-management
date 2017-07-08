@@ -14,7 +14,7 @@ using System.Data;
 
 public partial class application4 : System.Web.UI.Page
 {
-    string connStr = "server=DESKTOP-RNBGQQS;uid=sa;pwd=123456;database=StudentsInfo";
+    string connStr = "server=iZoxstpa039w0xZ;uid=sa;pwd=admin2017GAO;database=StudentsInfo";    //连接数据库
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)

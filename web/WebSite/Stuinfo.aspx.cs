@@ -59,8 +59,9 @@ public partial class t : System.Web.UI.Page
         reader.Read();
         string photoPath = reader[0].ToString();
         conn.Close();
+      
 
-     
+
 
 
 
@@ -454,6 +455,8 @@ public partial class t : System.Web.UI.Page
                         string splitName = fileName.Substring(position + 1);       //截取后缀
                         string newPath = CheckFileName(splitName);                 //判断后缀名是否合法并赋予新的文件名
                         string savePath = Server.MapPath("picture/");            //Server.MapPath方法返回与指定虚拟路径相对应的物理路径。                             
+                     // string savePath1 = Server.MapPath("C:\\web\\WebSite2\\picture\\");
+                       // mypicture.PostedFile.SaveAs(savePath1 + newPath);
                         mypicture.PostedFile.SaveAs(savePath + newPath);                //FileUpload1.SaveAs方法：将上载文件的内容保存到 Web 服务器上的指定路径。后面加上文件名
                         string wpath = "picture\\" + newPath;
                        // string photoupStr = "UPDATE si SET Photo='" + wpath + "' WHERE ID='" + id + "'";
