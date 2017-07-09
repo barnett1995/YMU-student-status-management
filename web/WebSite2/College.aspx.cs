@@ -308,9 +308,10 @@ public partial class College : System.Web.UI.Page
         /// </summary>
     public void bind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        //Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT Xi.Xi_id,Xi.XM,College.CM FROM College, Xi WHERE College.College_ID = Xi.College_ID AND College.College_ID = (SELECT College_ID FROM Teacher WHERE Teacher.ID = '" + ID + "')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);

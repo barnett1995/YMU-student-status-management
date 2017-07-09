@@ -175,9 +175,10 @@ public partial class College1 : System.Web.UI.Page
     /// <param name="e"></param>
     protected void add_ServerClick(object sender, EventArgs e)
     {
-        Application.Lock();
-        string TID = Application["ID"].ToString();
-        Application.UnLock();
+       // Application.Lock();
+       // string TID = Application["ID"].ToString();
+       // Application.UnLock();
+        string TID= Session["ID"].ToString();
         string id = upid.Value;
         string nm = upname.Value;
         string pwd = uppwd.Value;   
@@ -246,9 +247,10 @@ public partial class College1 : System.Web.UI.Page
     /// <param name="c"></param>
     public void listbind2()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        //  Application.Lock();
+        //  string ID = Application["ID"].ToString();
+        //  Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT XM FROM Xi WHERE College_ID=(SELECT College_ID FROM Teacher WHERE ID='"+ID+"' )";
 
         SqlConnection sqlcon = new SqlConnection(connStr);
@@ -323,9 +325,10 @@ public partial class College1 : System.Web.UI.Page
     /// </summary>
     public void bind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        //Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT ID,TeacheName,Password,Xi.XM FROM Teacher, Xi WHERE Position = '系主任/辅导员' AND Xi.Xi_id = Teacher.xi_id AND Teacher.College_ID = (SELECT College_ID FROM Teacher WHERE Teacher.ID = '" + ID + "')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);

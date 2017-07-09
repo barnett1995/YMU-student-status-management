@@ -49,7 +49,8 @@ public partial class login : System.Web.UI.Page
                 else
                 {
                     
-                    Application["ID"] = id.Text;              
+                
+                    Session["ID"] = id.Text;
                     Response.Redirect("College.aspx");                                      //页面跳转
                 }
             }
@@ -71,7 +72,7 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    Application["ID"] = id.Text;
+                    Session["ID"] = id.Text;
                     Response.Redirect("Admin0.aspx");                                     //页面跳转
                 }
             }
@@ -93,7 +94,7 @@ public partial class login : System.Web.UI.Page
                 }
                 else
                 {
-                    Application["ID"] = id.Text;
+                    Session["ID"] = id.Text;
                     Response.Redirect("Teacher.aspx");                                  //页面跳转
                 }
             }

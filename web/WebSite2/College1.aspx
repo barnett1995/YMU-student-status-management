@@ -142,7 +142,7 @@
                     <asp:BoundField DataField="TeacheName" HeaderText="姓名" DataFormatString="{0:000#}" /> 
                     <asp:BoundField DataField="Password" HeaderText="密码" DataFormatString="{0:000#}" /> 
                     <asp:BoundField DataField="XM" HeaderText="所属系" DataFormatString="{0:000#}"  ReadOnly="True"/>  
-            
+                         
                     <asp:CommandField HeaderText="编辑" ShowEditButton="True" />    
                     <asp:CommandField HeaderText="删除" ShowDeleteButton="True" />    
                </Columns>    

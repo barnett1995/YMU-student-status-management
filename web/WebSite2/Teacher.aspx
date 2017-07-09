@@ -120,80 +120,17 @@
                 </p>              
                 <p style="font-weight: 800">
                     &nbsp; 
-               
-              <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-              <ContentTemplate>
-                
-           
+              
                 <h2 style="font-weight: 600;">查询学生信息：</h2>
-                 </ContentTemplate>
-                    </asp:UpdatePanel>
-				    <p style="font-weight: 600">学号：<input id="xuehao" type="text" runat="server" />
-				    </p>
+                 
+				 
                     <p style="font-weight: 600">
-				    <input type="submit" value="查询" style="width: 180px;height: 30px" id="chaxun" runat="server" onserverclick="chaxun_ServerClick">
+				    <input type="submit" value="查询所有学生" style="width: 180px;height: 30px" id="chaxun" runat="server" onserverclick="chaxun_ServerClick">
                     </p>
-                    <input id="restart" type="submit" style="width: 180px;height: 30px" value="重置" runat="server" onserverclick="restart_ServerClick"/>
-			 
+                   
+                   
 			     <p style="font-weight: 600">
-            <div>
-				<asp:UpdatePanel ID="UpdatePanel3" runat="server">
-              <ContentTemplate>
-                    <asp:GridView ID="GridView1" runat="server" Height="133px" Width="584px"
-                  AutoGenerateColumns="False" DataKeyNames="id"  align="center"
-                  OnRowEditing="GridView1_RowEditing" BackColor="White" BorderColor="White"   
-                  BorderStyle="Ridge" BorderWidth="2px" CellPadding="3"  CellSpacing="1"   
-                  GridLines="None"
-                  OnRowUpdating="GridView1_RowUpdating"   
-                  OnRowCancelingEdit="GridView1_RowCancelingEdit"   
-                  OnRowDeleting="GridView1_RowDeleting" HorizontalAlign="Center"
-                 >   
-              <Columns>    
-                     <asp:TemplateField>
-                        <HeaderTemplate>
-                            <asp:CheckBox ID="CheckBox2" runat="server" AutoPostBack="True" Font-Sizep="9pt" OnCheckedChanged="CheckBox2_CheckedChanged" Text="全选" />
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                             <asp:CheckBox ID="CheckBox1" runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:BoundField DataField="ID" HeaderText="学号" ReadOnly="True"/>    
-                    <asp:BoundField DataField="Name" HeaderText="姓名" DataFormatString="{0:000#}" /> 
-                    <asp:BoundField DataField="password" HeaderText="密码" DataFormatString="{0:000#}" /> 
-                    <asp:BoundField DataField="CLM" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
-                    <asp:TemplateField>
-                        <HeaderTemplate>
-                           查看学生信息
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <asp:Button ID="chakan" runat="server" Text="查看信息" onclick="chakan_Click" />
-                        </ItemTemplate>
-                    </asp:TemplateField>            
-                    <asp:CommandField HeaderText="编辑" ShowEditButton="True" />    
-                    <asp:CommandField HeaderText="删除" ShowDeleteButton="True" />    
-               </Columns>    
-               <RowStyle BackColor="#DEDFDE" ForeColor="Black" />    
-               <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />    
-               <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />    
-               <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />    
-               <HeaderStyle BackColor="#003532" Font-Bold="True" ForeColor=" #FFFFFF" />             
-           </asp:GridView>   
-          <p style="font-weight: 300">
-       </div>		
-    </ContentTemplate>
-    </asp:UpdatePanel>
-        <p style="font-weight: 300; width: 579px;">
-        <asp:Button ID="Button1" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="取消全选" OnClick="Button1_Click" />
-        &nbsp; &nbsp;
-        <asp:Button ID="Button2" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="删除" OnClick="Button2_Click" />
-        &nbsp; &nbsp;
-        <asp:Button ID="excel" runat="server" style="width: 100px;height: 30px" Text="导出excel" OnClick="Excel_Click"/>
-        </P>
-			
-			</div>
-		</div>
-		</div>
-	<div class="modal hide fade" id="myModal">
+            <div class="modal hide fade" id="myModal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
 			<h3>Settings</h3>

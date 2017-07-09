@@ -238,9 +238,10 @@ public partial class application3 : System.Web.UI.Page
     /// </summary>
     public void listbind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        // Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "select XM FROM Xi, College WHERE College.College_ID = (SELECT College_ID FROM Teacher WHERE ID = '"+ID+"' )";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
@@ -317,9 +318,10 @@ public partial class application3 : System.Web.UI.Page
     /// </summary>
     public void selectbind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        // Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT XM FROM Xi where College_ID=(SELECT College_ID FROM Teacher WHERE id='" + ID + "')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
@@ -358,9 +360,10 @@ public partial class application3 : System.Web.UI.Page
     /// </summary>
     public void bind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        //Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Xi.College_ID=(SELECT College_ID FROM Teacher WHERE ID='" + ID + "') AND banji.xi_id=Xi.Xi_id";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);

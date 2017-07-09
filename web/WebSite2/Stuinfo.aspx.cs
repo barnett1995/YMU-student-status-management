@@ -18,8 +18,8 @@ public partial class Stuinfo : System.Web.UI.Page
 
     public void show()
     {
-        string id = "201620247001";
-       // string id = Request.QueryString["id" ];
+     
+        string id = Request.QueryString["id" ];
         string photoStr = "SELECT Photo FROM si WHERE ID='" + id + "'";
         string selectStr = "SELECT * FROM si WHERE ID='" + id + "'";                //查询学生信息表
         string selectStr1 = "SELECT * FROM Relation WHERE ID='" + id + "'";          //查看社会关系表
@@ -46,9 +46,9 @@ public partial class Stuinfo : System.Web.UI.Page
         reader.Read();
         string photoPath = reader[0].ToString();
         conn.Close();
-        Response.Write(@"<script>alert('"+photoPath+"');</script>");
 
-        preview.Src = photoPath;
+
+        preview.Src += photoPath;
       
         //基本信息表 dt
         name.Value = dt.Rows[0]["Name"].ToString();                        //姓名    

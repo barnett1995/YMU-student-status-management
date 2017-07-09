@@ -7,26 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link rel="stylesheet" href="CSS/stdinfo.css" />
-        <script type="text/javascript">
-    function imgPreview(fileDom){
-        if (window.FileReader) {
-            var reader = new FileReader();
-        } else {
-            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
-        }
-        var file = fileDom.files[0];
-        var imageType = /^image\//;
-        if (!imageType.test(file.type)) {
-            alert("请选择图片！");
-            return;
-        }
-        reader.onload = function(e) {
-            var img = document.getElementById("preview");
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-    </script>
+       
     <style>
 			#div001{
 				width: 100%;
@@ -451,7 +432,7 @@
                                       
                     </div>
                     <div id="div009" style="float:left;">
-                        <img id="preview" runat="server" src="" />
+                        <img id="preview" runat="server" />
                     </div>
                     <div id="div008">
                         <table id="table002-bt" border="1" cellspacing="0" >

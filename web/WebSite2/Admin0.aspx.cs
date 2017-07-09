@@ -300,9 +300,10 @@ public partial class Admin0 : System.Web.UI.Page
     /// </summary>
     public void bind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        // Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT Class_ID,CLM,grade,XM FROM banji,Xi WHERE Xi.Xi_id=(SELECT xi_id FROM Teacher WHERE ID='" + ID + "') AND banji.xi_id=Xi.Xi_id";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);

@@ -292,9 +292,10 @@ public partial class College3 : System.Web.UI.Page
     /// </summary>
     public void selectbind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        //Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT XM FROM Xi where College_ID=(SELECT College_ID FROM Teacher WHERE id='" + ID + "')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
@@ -332,9 +333,10 @@ public partial class College3 : System.Web.UI.Page
     /// </summary>
     public void bind()
     {
-        Application.Lock();
-        string ID = Application["ID"].ToString();
-        Application.UnLock();
+        //Application.Lock();
+        //string ID = Application["ID"].ToString();
+        //Application.UnLock();
+        string ID = Session["ID"].ToString();
         string sqlstr = "SELECT ID,TeacheName,Password,XM,CLM,banji.grade FROM Teacher,Xi,banji WHERE Teacher.Class_ID = banji.Class_ID AND Xi.Xi_id = Teacher.xi_id AND Teacher.College_ID = (SELECT College_ID FROM Teacher WHERE Teacher.ID = '"+ID+"')";
         SqlConnection sqlcon = new SqlConnection(connStr);
         SqlDataAdapter da = new SqlDataAdapter(sqlstr, sqlcon);
