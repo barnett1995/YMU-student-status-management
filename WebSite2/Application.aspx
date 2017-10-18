@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="College.aspx.cs" Inherits="College" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Application.aspx.cs" Inherits="_Default" %>
 
 <!DOCTYPE html>
 
@@ -19,9 +19,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div class="navbar">
-        <asp:ScriptManager ID="ScriptManager1" runat="server">
-     </asp:ScriptManager>
+    <div class="navbar">>
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
@@ -80,44 +78,21 @@
 				<li><a href="College.aspx">系管理</a></li>
 			</ul>
 			<div class="row-fluid"  style="text-align: center"> 
-				<h2 style="font-weight: 300;">系信息Excel上传：</h2>
-                <p style="font-weight: 600">
-				 <asp:FileUpload ID="FileUpload1" runat="server" />
-                </p>
-                 <p style="font-weight: 600">
-                 <input id="up" Value="上传" style="width: 180px;height: 30px" type="submit" runat="server" onserverclick="shangchuan_Click" />
-				 </p>
-                 <h2 style="font-weight: 600;">单条添加系信息：</h2>   
-                 <p style="font-weight: 600">所属学院：
-                 <asp:DropDownList ID="xylist" runat="server" Width="206px" AutoPostBack="True" ></asp:DropDownList>
-                 </p>
-                 <p style="font-weight: 600">系ID：<input id="upid" type="text" runat="server"></p>
-				<p style="font-weight: 600">系名：<input id="upname" type="text" runat="server"></p>
-                <p style="font-weight: 300">
-                <input id="add" type="submit" value="保存" style="width: 180px;height: 30px" runat="server" onserverClick="add_ServerClick" />
-                </p>  
-                <h2 style="font-weight: 600;">系信息查询：</h2>
-                 <p style="font-weight: 600">系ID：<input id="xiid" type="text" runat="server" />
-				    </p>
-                    <p style="font-weight: 600">
-				    <input type="submit" value="查询" style="width: 180px;height: 30px" id="chaxun" runat="server" onserverclick="chaxun_ServerClick" />
-                    </p>
-                     <p style="font-weight: 600">
-                    <input id="restart" type="submit" style="width: 180px;height: 30px" value="重置" runat="server" onserverclick="restart_ServerClick"/>
-			        </p>
 
-                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                     <ContentTemplate>
-                    <asp:GridView ID="GridView1" runat="server" Height="133px" Width="584px"
-                  AutoGenerateColumns="False" DataKeyNames="Xi_id"  align="center"
-                  OnRowEditing="GridView1_RowEditing" BackColor="White" BorderColor="White"   
+                     <asp:ScriptManager ID="ScriptManager2" runat="server">
+        </asp:ScriptManager>
+        	<asp:UpdatePanel ID="UpdatePanel3" runat="server">
+              <ContentTemplate>
+                    <asp:GridView ID="GridView2" runat="server" Height="133px" Width="800px"
+                  AutoGenerateColumns="False" DataKeyNames="id"  align="center"
+                 BackColor="White" BorderColor="White"   
                   BorderStyle="Ridge" BorderWidth="2px" CellPadding="3"  CellSpacing="1"   
-                  GridLines="None"
-                  OnRowUpdating="GridView1_RowUpdating"   
-                  OnRowCancelingEdit="GridView1_RowCancelingEdit"   
-                  OnRowDeleting="GridView1_RowDeleting" HorizontalAlign="Center"
+                  GridLines="None"                  
+                   HorizontalAlign="Center" AllowPaging="True" PageSize="15"
+                
                  >   
               <Columns>    
+                  
                      <asp:TemplateField>
                         <HeaderTemplate>
                             <asp:CheckBox ID="CheckBox2" runat="server" AutoPostBack="True" Font-Sizep="9pt" OnCheckedChanged="CheckBox2_CheckedChanged" Text="全选" />
@@ -126,11 +101,58 @@
                              <asp:CheckBox ID="CheckBox1" runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="Xi_id" HeaderText="系ID" ReadOnly="True"/>    
-                    <asp:BoundField DataField="XM" HeaderText="系名" DataFormatString="{0:000#}" />
-                    <asp:BoundField DataField="CM" HeaderText="学院名" DataFormatString="{0:000#}" ReadOnly="True" />                     
-                    <asp:CommandField HeaderText="编辑" ShowEditButton="True" />    
-                    <asp:CommandField HeaderText="删除" ShowDeleteButton="True" />    
+                    <asp:BoundField DataField="ID" HeaderText="学号" ReadOnly="True"/>    
+                    <asp:BoundField DataField="Name" HeaderText="姓名" DataFormatString="{0:000#}" /> 
+                    <asp:BoundField DataField="nianji" HeaderText="年级" DataFormatString="{0:000#}" /> 
+                    <asp:BoundField DataField="CLM" HeaderText="班级" DataFormatString="{0:000#}" ReadOnly="True"  />  
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                           查看学生信息
+                        </HeaderTemplate>
+                         <ItemTemplate>
+                            <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel1" runat="server">
+                                <ContentTemplate>
+                                      <asp:Button ID="chakan" runat="server" Text="查看信息" AutoPostBack="True" OnClick="chakan_Click" />
+                                </ContentTemplate>
+                                <Triggers>
+                                   <asp:PostBackTrigger ControlID="chakan"  />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </ItemTemplate>
+                    </asp:TemplateField> 
+                      <asp:TemplateField>
+                        <HeaderTemplate>
+                           修改审核
+                        </HeaderTemplate>
+                         <ItemTemplate>
+                            <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel2" runat="server">
+                                <ContentTemplate>
+                                      <asp:Button ID="true" runat="server" Text="同意修改" AutoPostBack="True" OnClick="true_Click" />
+                                </ContentTemplate>
+                                <Triggers>
+                                   <asp:PostBackTrigger ControlID="true"  />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </ItemTemplate>
+                    </asp:TemplateField> 
+ 
+                      <asp:TemplateField>
+                        <HeaderTemplate>
+                           修改审核
+                        </HeaderTemplate>
+                         <ItemTemplate>
+                            <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel3" runat="server">
+                                <ContentTemplate>
+                                      <asp:Button ID="false" runat="server" Text="不同意修改" AutoPostBack="True" OnClick="false_Click" />
+                                </ContentTemplate>
+                                <Triggers>
+                                   <asp:PostBackTrigger ControlID="false"  />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </ItemTemplate>
+                    </asp:TemplateField> 
+                              
+                   
                </Columns>    
                <RowStyle BackColor="#DEDFDE" ForeColor="Black" />    
                <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />    
@@ -138,14 +160,16 @@
                <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />    
                <HeaderStyle BackColor="#003532" Font-Bold="True" ForeColor=" #FFFFFF" />             
            </asp:GridView>   
-             </ContentTemplate>
-            </asp:UpdatePanel>
+                 </ContentTemplate>         
+    </asp:UpdatePanel>
           <p style="font-weight: 300">	
 
         <p style="font-weight: 300; width: 579px;">
         <asp:Button ID="Button1" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="取消全选" OnClick="Button1_Click" />
         &nbsp; &nbsp;
-        <asp:Button ID="Button2" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="删除" OnClick="Button2_Click" />
+        <asp:Button ID="Button2" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="全部同意" OnClick="Button2_Click" />
+         &nbsp; &nbsp;
+        <asp:Button ID="Button3" runat="server" style="width: 100px;height: 30px" Font-Size="12pt" Text="全部不同意" OnClick="Button3_Click" />
 
 				
 			</div>		

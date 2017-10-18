@@ -18,9 +18,7 @@ public partial class application4 : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
-        {
-            
-            
+        {          
             listbind();
             selectbind();
             this.selectxi.Items.Insert(0, new ListItem("请选择系", "0"));
@@ -29,8 +27,6 @@ public partial class application4 : System.Web.UI.Page
             this.xilist.Items.Insert(0, new ListItem("请选择系", "0"));
             this.banjilist.Items.Insert(0, new ListItem("请选择班级 ", "0"));
             this.nianjilist.Items.Insert(0, new ListItem("请选择年级 ", "0"));
-
-
         }
     }
     //Excel操作部分
@@ -118,7 +114,7 @@ public partial class application4 : System.Web.UI.Page
         {
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                string sqlStr = "insert into si(ID,Name,password,College_ID,Xi_id,classid,nianji) values('" + ds.Tables[0].Rows[i][0].ToString() + "','" + ds.Tables[0].Rows[i][1].ToString() + "','" + ds.Tables[0].Rows[i][2].ToString() + "','" + ds.Tables[0].Rows[i][3].ToString() + "','" + ds.Tables[0].Rows[i][4].ToString() + "','" + ds.Tables[0].Rows[i][5].ToString() + "','" + ds.Tables[0].Rows[i][6].ToString() + "'); insert into Experience(ID) VALUES ('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "');  insert into marriage(ID) VALUES ('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'); insert into Relation(ID) VALUES ('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "')";
+                string sqlStr = "insert into si(ID,Name,password,College_ID,Xi_id,classid,nianji,Authority,apply,overrule) values('" + ds.Tables[0].Rows[i][0].ToString() + "','" + ds.Tables[0].Rows[i][1].ToString() + "','" + ds.Tables[0].Rows[i][2].ToString() + "','" + ds.Tables[0].Rows[i][3].ToString() + "','" + ds.Tables[0].Rows[i][4].ToString() + "','" + ds.Tables[0].Rows[i][5].ToString() + "','" + ds.Tables[0].Rows[i][6].ToString() + "','true','false','false'); insert into Experience(ID) VALUES ('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "');  insert into marriage(ID) VALUES ('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'); insert into Relation(ID) VALUES ('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "'),('" + ds.Tables[0].Rows[i][0].ToString() + "');";
                 SqlCommand cmd = new SqlCommand(sqlStr, conn, str);          //表示要对 SQL Server 数据库执行的一个 Transact-SQL 语句或存储过程
                 cmd.Transaction = str;                                        //执行SqlCommand的SqlTransaction
                 k += cmd.ExecuteNonQuery();                                  //返回受影响的行数
@@ -272,7 +268,7 @@ public partial class application4 : System.Web.UI.Page
                 string xid = dt2.Rows[0]["Xi_id"].ToString();
                 string cid = dt2.Rows[0]["Class_ID"].ToString();
 
-                string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
+                string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji,Authority,apply,overrule) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "','true','false','false'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
                 SqlDataAdapter da3 = new SqlDataAdapter(selectStr, conn);
                 DataTable dt3 = new DataTable();
                 conn.Open();                                                             //打开数据库

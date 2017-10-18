@@ -14,13 +14,11 @@ public partial class t : System.Web.UI.Page
     string connStr = "server=1-PC;uid=sa;pwd=admin2017GAO;database=StudentsInfo"; 
     protected void Page_Load(object sender, EventArgs e)
     {
+       
         if (!IsPostBack)
         {
-            show();
-       
-            
             string id = Session["ID"].ToString();
-            string selectStr = "SELECT Authority FROM si WHERE ID='" + id + "'";
+            string selectStr = "SELECT Authority,overrule FROM si WHERE ID='" + id + "'";
             SqlConnection conn = new SqlConnection(connStr);
             SqlDataAdapter da = new SqlDataAdapter(selectStr, conn);
             DataTable dt = new DataTable();
@@ -28,26 +26,57 @@ public partial class t : System.Web.UI.Page
             da.Fill(dt);
             conn.Close();
 
+            show();                         
             string Authority = dt.Rows[0]["Authority"].ToString();
+            string overrule = dt.Rows[0]["overrule"].ToString();
             
-
-            if (Authority == "true")
+            if(overrule=="true")
             {
-              
-                htmlControls1();
+                Response.Write(@"<script>alert('修改申请未审核通过，请重新申请或联系辅导员');</script>");
+                xiugai();
+                if (Authority == "true")
+                {
 
+                    htmlControls1();
+
+                }
+                else if (Authority == "false")
+                {
+                    htmlControls2(this.Page.Form.Controls);
+                }
             }
-            else if (Authority == "false")
+            else
             {
-               
-                htmlControls2(this.Page.Form.Controls);
+                if (Authority == "true")
+                {
 
+                    htmlControls1();
+
+                }
+                else if (Authority == "false")
+                {
+                    htmlControls2(this.Page.Form.Controls);
+                }
             }
-            
             
 
         }
+    }
 
+    /// <summary>
+    /// 修改申请信息
+    /// </summary>
+    public void xiugai()
+    {
+        string id = Session["ID"].ToString();
+        //string selectStr = "SELECT Authority,overrule FROM si WHERE ID='" + id + "'";
+        string upStr = "UPDATE si SET overrule='false' WHERE ID='" + id + "'";
+        SqlConnection conn = new SqlConnection(connStr);
+        SqlDataAdapter da = new SqlDataAdapter(upStr, conn);
+        DataTable dt = new DataTable();
+        conn.Open();
+        da.Fill(dt);
+        conn.Close();
 
     }
 
