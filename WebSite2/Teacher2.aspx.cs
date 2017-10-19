@@ -294,7 +294,7 @@ public partial class Teacher2 : System.Web.UI.Page
                 string xid = dt2.Rows[0]["Xi_id"].ToString();
                 string cid = dt2.Rows[0]["Class_ID"].ToString();
 
-                string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
+                string instr = "INSERT INTO si(ID,Name,password,College_ID,Xi_id,classid,nianji,Authority,apply,overrule) VALUES('" + id + "','" + nm + "','" + pwd + "','" + xyid + "','" + xid + "','" + cid + "','" + nj + "',,'true','false','false'); insert into Experience(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');  insert into marriage(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'); insert into Relation(ID) VALUES ('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "'),('" + id + "');";
                 SqlDataAdapter da3 = new SqlDataAdapter(instr, conn);
                 DataTable dt3 = new DataTable();
                 conn.Open();                                                             //打开数据库
